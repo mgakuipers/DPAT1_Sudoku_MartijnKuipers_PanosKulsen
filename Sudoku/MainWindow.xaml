@@ -1,0 +1,22 @@
+﻿<Window x:Class="Sudoku.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sudoku"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <!-- Sudoku board UI representation -->
+        <Canvas Name="gridBoard" Margin="10">
+            <!-- Placeholder for Sudoku cell elements -->
+        </Canvas>
+
+        <!-- Buttons for controlling the game -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <Button x:Name="btnNewGame" Content="New Game" Width="100" Click="btnNewGame_Click" />
+            <Button x:Name="btnSolve" Content="Solve" Width="100" Click="btnSolve_Click" />
+            <Button x:Name="btnReset" Content="Reset" Width="100" Click="btnReset_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

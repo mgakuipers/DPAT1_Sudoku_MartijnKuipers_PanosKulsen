@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Sudoku.Views.Components.CellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sudoku.Views.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1">
+            <TextBox x:Name="cell" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Text" Value="{Binding Value}" />
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="IsReadOnly" Value="{Binding IsFixed}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFixed}" Value="True">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                <Setter Property="Background" Value="PaleVioletRed" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Border> 
+    </Grid>
+</UserControl>
