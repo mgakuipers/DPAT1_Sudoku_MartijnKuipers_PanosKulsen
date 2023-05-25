@@ -142,6 +142,8 @@ namespace Sudoku
 
                     // Update the UI to reflect the new board
                     GenerateNormalBoardUI();
+
+                    isSolving = false;
                 }
             }
         }
