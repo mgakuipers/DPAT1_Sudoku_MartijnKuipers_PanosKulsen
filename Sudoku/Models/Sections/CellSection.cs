@@ -85,7 +85,7 @@ namespace Sudoku.Models.Sections
                 {
                     foreach(CellSection c in regionSection.children)
                     {
-                        if(c != cell && c.Value == cell.Value)
+                        if (c != cell && c.Value == cell.Value)
                         {
                             return false;
                         }

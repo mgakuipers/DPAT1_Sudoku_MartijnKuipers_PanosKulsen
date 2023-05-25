@@ -30,7 +30,8 @@ namespace Sudoku
     {
         private SudokuGameController gameController;
         private IBoard sudokuBoard;
-        private string orignalContent;
+
+        private volatile bool isSolving = false;
 
         public MainWindow()
         {
@@ -41,17 +42,15 @@ namespace Sudoku
 
             // Create a new Sudoku board
             sudokuBoard = gameController.CreateNineByNineBoard();
-            orignalContent = "000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-            sudokuBoard.SetBoardContent(orignalContent);
 
             // Add event handler for board state change
             // sudokuBoard.BoardStateChanged += SudokuBoard_BoardStateChanged;
 
             // Populate the UI with the Sudoku board cells
-            GenerateBoardUI();
+            GenerateNormalBoardUI();
         }
 
-        private void GenerateBoardUI()
+        private void GenerateNormalBoardUI()
         {
             // Clear the existing UI elements
             gridBoard.Children.Clear();
@@ -141,10 +140,8 @@ namespace Sudoku
                     string content = File.ReadAllText(filePath);
                     sudokuBoard.SetBoardContent(content);
 
-                    orignalContent = content;
-
                     // Update the UI to reflect the new board
-                    GenerateBoardUI();
+                    GenerateNormalBoardUI();
                 }
             }
         }
@@ -152,21 +149,34 @@ namespace Sudoku
         private void btnSolve_Click(object sender, RoutedEventArgs e)
         {
             // Handle the "Solve" button click event
-            new Thread(() =>
+            if (!isSolving)
             {
-                Thread.CurrentThread.IsBackground = true;
-                sudokuBoard?.SolveBoard();
-            }).Start();
+                isSolving = true;
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    sudokuBoard.SolveBoard();
+                    isSolving = false;
+                }).Start();
+            }
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             // Handle the "Reset" button click event
-            new Thread(() =>
+            if (!isSolving)
             {
-                Thread.CurrentThread.IsBackground = true;
-                sudokuBoard.SetBoardContent(orignalContent);
-            }).Start();
+                // Handle the "Reset" button click event
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    sudokuBoard.SetBoardContent(sudokuBoard.GetOriginalContent());
+                    Dispatcher.Invoke(() =>
+                    {
+                        GenerateNormalBoardUI();
+                    });
+                }).Start();
+            }
         }
     }
 }

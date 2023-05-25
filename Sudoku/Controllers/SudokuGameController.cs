@@ -32,18 +32,21 @@ namespace Sudoku.Controllers
         public IBoard CreateFourByFourBoard()
         {
             sudokuBoard = _factory.CreateFourByFourBoard();
+            sudokuBoard.SetBoardContent("0000000000000000");
             return sudokuBoard;
         }
 
         public IBoard CreateSixBySixBoard()
         {
             sudokuBoard = _factory.CreateSixBySixBoard();
+            sudokuBoard.SetBoardContent("000000000000000000000000000000000000");
             return sudokuBoard;
         }
 
         public IBoard CreateNineByNineBoard()
         {
             sudokuBoard = _factory.CreateNineByNineBoard();
+            sudokuBoard.SetBoardContent("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
             return sudokuBoard;
         }
     }

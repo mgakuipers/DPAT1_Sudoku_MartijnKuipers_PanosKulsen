@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sudoku.Controllers.Strategies
@@ -40,6 +41,9 @@ namespace Sudoku.Controllers.Strategies
                     // If the board cannot be solved with the current number, backtrack
                     board.GetCell(row, col).Value = 0;
                 }
+
+                // Wait 1 ms before going further (to visualize the process)
+                Thread.Sleep(1);
             }
 
             // If no number can be assigned to the cell, backtrack
@@ -74,12 +78,13 @@ namespace Sudoku.Controllers.Strategies
             }
 
             // Check grid constraints
-            int gridSize = (int)Math.Sqrt(size);
-            int startRow = row - (row % gridSize);
-            int startCol = col - (col % gridSize);
-            for (int i = startRow; i < startRow + gridSize; i++)
+            int blockSizeVertical = (int)Math.Sqrt(size);
+            int blockSizeHorizontal = size / blockSizeVertical;
+            int startRow = row - (row % blockSizeVertical);
+            int startCol = col - (col % blockSizeHorizontal);
+            for (int i = startRow; i < startRow + blockSizeVertical; i++)
             {
-                for (int j = startCol; j < startCol + gridSize; j++)
+                for (int j = startCol; j < startCol + blockSizeHorizontal; j++)
                 {
                     if (board.GetCell(i, j).Value == num)
                         return false;

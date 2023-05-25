@@ -23,6 +23,8 @@ namespace Sudoku.Models.Boards
             }
         }
 
+        private string orignalContent;
+
         public NormalBoard(BoardState boardState, SolveStrategy solveStrategy, int size) : base(boardState, solveStrategy, size)
         {
             // Initialize possible numbers list
@@ -34,9 +36,12 @@ namespace Sudoku.Models.Boards
 
         public void CreateBoard()
         {
+            cells = new List<CellSection>();
+            regions = new List<RegionSection>();
+            rows = new List<RowSection>();
+            cols = new List<ColumnSection>();
+
             int blockSize = (int)Math.Sqrt(size);
-            int blockRowCount = size / blockSize;
-            int blockColCount = blockSize;
 
             // Initialize blocks list
             for (var i = 0; i < size; i++)
@@ -54,30 +59,36 @@ namespace Sudoku.Models.Boards
                 cols.Add(new ColumnSection());
             }
 
-            for (var i = 0; i < size; i++)
+            for (var rowIndex = 0; rowIndex < size; rowIndex++)
             {
-                for(var  j = 0; j < size; j++)
+                for (var colIndex = 0; colIndex < size; colIndex++)
                 {
                     CellSection cell = new CellSection();
-                    cell.Row = i;
-                    cell.Column = j;
+                    cell.Row = rowIndex;
+                    cell.Column = colIndex;
 
                     cell.possibleNumbers = possibleNumbersList;
 
                     cells.Add(cell);
 
                     // Create corresponding sections for blocks, rows, and columns
-                    int blockIndex = (i / blockRowCount) * blockColCount + (j / blockSize);
+                    int blockSizeVertical = (int)Math.Sqrt(size);
+                    int blockSizeHorizontal = size / blockSizeVertical;
+
+                    int blockIndex = (rowIndex / blockSizeVertical) * blockSizeHorizontal + (colIndex / blockSizeHorizontal);
+                    int blockRow = blockIndex / blockSizeHorizontal;
+                    int blockCol = blockIndex % blockSizeHorizontal;
+                    blockIndex = blockRow * blockSizeVertical + blockCol;
 
                     RegionSection region = regions[blockIndex];
                     region.Add(cell);
                     cell.parentSections.Add(region);
 
-                    RowSection row = rows[i];
+                    RowSection row = rows[rowIndex];
                     row.Add(cell);
                     cell.parentSections.Add(row);
 
-                    ColumnSection col = cols[j];
+                    ColumnSection col = cols[colIndex];
                     col.Add(cell);
                     cell.parentSections.Add(col);
                 }
@@ -91,6 +102,7 @@ namespace Sudoku.Models.Boards
                 throw new ArgumentException("Invalid content length for setting board state.");
             }
 
+            this.orignalContent = content;
             CreateBoard();
 
             for (int row = 0; row < GetSize(); row++)
@@ -110,7 +122,7 @@ namespace Sudoku.Models.Boards
                     }
 
                     SetCell(row, col, cellValue);
-                    if(cellValue > 0)
+                    if (cellValue > 0)
                     {
                         GetCell(row, col).IsFixed = true;
                     }
@@ -147,6 +159,11 @@ namespace Sudoku.Models.Boards
         public void ValidateBoard()
         {
             Accept(new ValidateNumberVisitor());
+        }
+
+        public string GetOriginalContent()
+        {
+            return this.orignalContent;
         }
     }
 }

@@ -9,14 +9,16 @@ namespace Sudoku.Models.Boards
 {
     public interface IBoard
     {
-        IList<int> possibleNumbersList { get; set; }
         void CreateBoard();
         void SetBoardContent(string content);
-        int GetSize();
         void SetCell(int row, int col, int value);
-        CellSection GetCell(int row, int col);
-        bool IsSolved();
         void SolveBoard();
         void ValidateBoard();
+
+        IList<int> possibleNumbersList { get; set; }
+        CellSection GetCell(int row, int col);
+        bool IsSolved();
+        int GetSize();
+        string GetOriginalContent();
     }
 }
