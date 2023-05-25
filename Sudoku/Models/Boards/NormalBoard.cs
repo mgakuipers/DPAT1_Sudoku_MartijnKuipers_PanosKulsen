@@ -60,8 +60,8 @@ namespace Sudoku.Models.Boards
             }
 
             // Create corresponding sections for blocks, rows, and columns
-            int regionSizeVertical = GetVerticalRegionSize();
             int regionSizeHorizontal = GetHorizontalRegionSize();
+            int regionSizeVertical = GetVerticalRegionSize();
             for (var rowIndex = 0; rowIndex < size; rowIndex++)
             {
                 for (var colIndex = 0; colIndex < size; colIndex++)
@@ -73,10 +73,7 @@ namespace Sudoku.Models.Boards
 
                     cells.Add(cell);
 
-                    int regionIndex = (rowIndex / regionSizeVertical) * regionSizeHorizontal + (colIndex / regionSizeHorizontal);
-                    int regionRow = regionIndex / regionSizeHorizontal;
-                    int regionCol = regionIndex % regionSizeHorizontal;
-                    regionIndex = regionRow * regionSizeVertical + regionCol;
+                    int regionIndex = CalculateRegionIndex(regionSizeHorizontal, regionSizeVertical, rowIndex, colIndex);
 
                     RegionSection region = regions[regionIndex];
                     region.Add(cell);

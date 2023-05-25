@@ -72,26 +72,37 @@ namespace Sudoku.Controllers.Strategies
 
         private bool IsValidMove(BoardSection board, int row, int col, int num)
         {
-            int size = board.GetSize();
-
-            // Check row and column constraints
-            for (int i = 0; i < size; i++)
+            // Check row constraints
+            RowSection rowSection = board.rows[row];
+            foreach (CellSection c in rowSection.children)
             {
-                if (board.GetCell(row, i).Value == num || board.GetCell(i, col).Value == num)
+                if (c.Value == num)
+                {
                     return false;
+                }
             }
 
-            // Check grid constraints
+            // Check col contraints
+            ColumnSection colSection = board.cols[col];
+            foreach (CellSection c in colSection.children)
+            {
+                if (c.Value == num)
+                {
+                    return false;
+                }
+            }
+
+            // Check region constraints
             int regionSizeVertical = board.GetVerticalRegionSize();
             int regionSizeHorizontal = board.GetHorizontalRegionSize();
-            int startRow = row - (row % regionSizeVertical);
-            int startCol = col - (col % regionSizeHorizontal);
-            for (int i = startRow; i < startRow + regionSizeVertical; i++)
+            int regionIndex = board.CalculateRegionIndex(regionSizeHorizontal, regionSizeVertical, row, col);
+            
+            RegionSection regionSection = board.regions[regionIndex];
+            foreach (CellSection c in regionSection.children)
             {
-                for (int j = startCol; j < startCol + regionSizeHorizontal; j++)
+                if (c.Value == num)
                 {
-                    if (board.GetCell(i, j).Value == num)
-                        return false;
+                    return false;
                 }
             }
 

@@ -140,5 +140,13 @@ namespace Sudoku.Models.Sections
             }
             return true;
         }
+
+        public int CalculateRegionIndex(int regionSizeHorizontal, int regionSizeVertical, int rowIndex, int colIndex)
+        {
+            int regionIndex = (rowIndex / regionSizeVertical) * regionSizeHorizontal + (colIndex / regionSizeHorizontal);
+            int regionRow = regionIndex / regionSizeHorizontal;
+            int regionCol = regionIndex % regionSizeHorizontal;
+            return regionRow * regionSizeVertical + regionCol;
+        }
     }
 }
