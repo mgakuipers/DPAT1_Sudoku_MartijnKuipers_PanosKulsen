@@ -55,10 +55,15 @@ namespace Sudoku
             // Clear the existing UI elements
             gridBoard.Children.Clear();
 
+            // Board variables
+            int boardSize = sudokuBoard.GetSize();
+            int verticalSize = (int)Math.Sqrt(boardSize);
+            int horizontalSize = boardSize / verticalSize;
+
             // Iterate over the cells in the Sudoku board and add UI elements for each cell
-            for (int row = 0; row < sudokuBoard.GetSize(); row++)
+            for (int row = 0; row < boardSize; row++)
             {
-                for (int col = 0; col < sudokuBoard.GetSize(); col++)
+                for (int col = 0; col < boardSize; col++)
                 {
                     // Get the cell value from the Sudoku board
                     CellSection cell = sudokuBoard.GetCell(row, col);
@@ -69,6 +74,30 @@ namespace Sudoku
                     CellView cellView = new CellView();
                     cellView.cell.Width = cellSize;
                     cellView.cell.Height = cellSize;
+
+                    int regionIndex = (row / verticalSize) * horizontalSize + (col / horizontalSize);
+                    int regionRow = regionIndex / horizontalSize;
+                    int regionCol = regionIndex % horizontalSize;
+                    regionIndex = regionRow * verticalSize + regionCol;
+                    if ((boardSize / horizontalSize) % 2 == 1)
+                    {
+                        if (regionIndex % 2 == 0)
+                        {
+                            cellView.cell.Background = Brushes.Bisque;
+                        }
+                    }
+                    else
+                    {
+                        if (
+                            regionIndex == 0 ||
+                            regionIndex / 3f == 1.0 ||
+                            regionIndex / 4f == 1.0 ||
+                            regionIndex / 7f == 1.0
+                            )
+                        {
+                            cellView.cell.Background = Brushes.Bisque;
+                        }
+                    }
 
                     // Set the DataContext of the CellView to the corresponding CellViewModel
                     CellViewModel cellViewModel = new CellViewModel(cell);
