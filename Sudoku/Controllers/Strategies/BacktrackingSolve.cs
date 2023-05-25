@@ -78,13 +78,13 @@ namespace Sudoku.Controllers.Strategies
             }
 
             // Check grid constraints
-            int blockSizeVertical = (int)Math.Sqrt(size);
-            int blockSizeHorizontal = size / blockSizeVertical;
-            int startRow = row - (row % blockSizeVertical);
-            int startCol = col - (col % blockSizeHorizontal);
-            for (int i = startRow; i < startRow + blockSizeVertical; i++)
+            int regionSizeVertical = board.GetVerticalRegionSize();
+            int regionSizeHorizontal = board.GetHorizontalRegionSize();
+            int startRow = row - (row % regionSizeVertical);
+            int startCol = col - (col % regionSizeHorizontal);
+            for (int i = startRow; i < startRow + regionSizeVertical; i++)
             {
-                for (int j = startCol; j < startCol + blockSizeHorizontal; j++)
+                for (int j = startCol; j < startCol + regionSizeHorizontal; j++)
                 {
                     if (board.GetCell(i, j).Value == num)
                         return false;

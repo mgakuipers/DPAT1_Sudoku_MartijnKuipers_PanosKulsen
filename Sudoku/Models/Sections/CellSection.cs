@@ -17,7 +17,7 @@ namespace Sudoku.Models.Sections
         private IList<ISectionComponent> _parentSections = new List<ISectionComponent>();
         public IList<ISectionComponent> parentSections => _parentSections;
 
-        public IList<int> possibleNumbers = new List<int>();
+        public IList<int> PossibleNumbers = new List<int>();
 
         public bool IsFixed { get; set; }
         public int Row { get; set; }

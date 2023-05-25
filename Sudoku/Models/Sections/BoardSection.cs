@@ -105,6 +105,16 @@ namespace Sudoku.Models.Sections
             return size;
         }
 
+        public int GetVerticalRegionSize()
+        {
+            return (int)Math.Sqrt(GetSize());
+        }
+
+        public int GetHorizontalRegionSize()
+        {
+            return GetSize() / GetVerticalRegionSize();
+        }
+
         public bool IsUnique()
         {
             foreach (RegionSection block in regions)
