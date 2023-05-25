@@ -50,6 +50,10 @@ namespace Sudoku.Controllers.Strategies
             return false;
         }
 
+        /**
+         * Trying to find an empty cell and changing the row and col index
+         * because they are passed by reference
+         */
         private bool FindEmptyCell(BoardSection board, out int row, out int col)
         {
             int size = board.GetSize();
