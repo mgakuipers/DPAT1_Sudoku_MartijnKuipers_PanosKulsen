@@ -156,6 +156,11 @@ namespace Sudoku.Models.Boards
             Accept(new ValidateNumberVisitor());
         }
 
+        public void FillHintNumbers()
+        {
+            Accept(new CheckHintNumbersVisitor());
+        }
+
         public string GetOriginalContent()
         {
             return this.orignalContent;

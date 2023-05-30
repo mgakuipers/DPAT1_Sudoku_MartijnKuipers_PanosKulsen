@@ -22,23 +22,24 @@ namespace Sudoku.Models.Sections
         public bool IsFixed { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
-        public int Value {
-            get { return _value; } 
+        public int Value
+        {
+            get { return _value; }
             set
             {
-                if(_value != value)
+                if (_value != value)
                 {
                     _value = value;
                     OnPropertyChanged(nameof(Value));
                 }
-            } 
+            }
         }
         public bool IsValid
         {
             get { return _isValid; }
-            set 
-            { 
-                if(_isValid != value)
+            set
+            {
+                if (_isValid != value)
                 {
                     _isValid = value;
                     OnPropertyChanged(nameof(IsValid));
@@ -83,7 +84,7 @@ namespace Sudoku.Models.Sections
 
                 if (regionSection != null)
                 {
-                    foreach(CellSection c in regionSection.children)
+                    foreach (CellSection c in regionSection.children)
                     {
                         if (c != cell && c.Value == cell.Value)
                         {
@@ -114,6 +115,61 @@ namespace Sudoku.Models.Sections
             }
 
             return true;
+        }
+
+        public IList<int> GetPossibleNumbers(IList<int> possibleNumbersList)
+        {
+            IList<int> possibleNumbers = new List<int>();
+
+            foreach (ISectionComponent parentSection in parentSections)
+            {
+                RegionSection regionSection = parentSection as RegionSection;
+                RowSection rowSection = parentSection as RowSection;
+                ColumnSection colSection = parentSection as ColumnSection;
+
+                List<int> allPossibleNumbers = new List<int>();
+                allPossibleNumbers.AddRange(possibleNumbersList);
+
+                IList<int> possibleNumbersRegion = new List<int>();
+                IList<int> possibleNumbersRow = new List<int>();
+                IList<int> possibleNumbersCol = new List<int>();
+
+
+                if (regionSection != null)
+                {
+                    IList<int> setNumbers = new List<int>();
+                    foreach (CellSection c in regionSection.children)
+                    {
+                        if (c.Value != 0)
+                            setNumbers.Add(c.Value);
+                    }
+                    possibleNumbersRegion = (List<int>) allPossibleNumbers.Except(setNumbers);
+                }
+                else if (rowSection != null)
+                {
+                    IList<int> setNumbers = new List<int>();
+                    foreach (CellSection c in rowSection.children)
+                    {
+                        if (c.Value != 0)
+                            setNumbers.Add(c.Value);
+                    }
+                    possibleNumbersRow = (List<int>)allPossibleNumbers.Except(setNumbers);
+                }
+                else if (colSection != null)
+                {
+                    IList<int> setNumbers = new List<int>();
+                    foreach (CellSection c in colSection.children)
+                    {
+                        if (c.Value != 0)
+                            setNumbers.Add(c.Value);
+                    }
+                    possibleNumbersCol = (List<int>)allPossibleNumbers.Except(setNumbers);
+                }
+
+                possibleNumbers = (List<int>)possibleNumbersRegion.Intersect(possibleNumbersRow);
+                possibleNumbers = (List<int>)possibleNumbers.Intersect(possibleNumbersCol);
+            }
+            return possibleNumbers;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

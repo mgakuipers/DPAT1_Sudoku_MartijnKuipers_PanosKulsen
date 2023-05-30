@@ -132,6 +132,11 @@ namespace Sudoku
             // Update the UI based on the new state
         }
 
+        private void btnHint_Click(object sender, EventArgs e)
+        {
+            sudokuBoard.FillHintNumbers();
+        }
+
         private void btnNewGame_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
