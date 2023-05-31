@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sudoku.Controllers;
 using Sudoku.Models.Visitors;
 
 
@@ -17,7 +18,16 @@ namespace Sudoku.Models.Sections
         private IList<ISectionComponent> _parentSections = new List<ISectionComponent>();
         public IList<ISectionComponent> parentSections => _parentSections;
 
-        public IList<int> PossibleNumbers = new List<int>();
+        private IList<int> _possibleNumbers = new List<int>();
+        public IList<int> PossibleNumbers
+        {
+            get { return _possibleNumbers; }
+            set 
+            { 
+                _possibleNumbers = value;
+                OnPropertyChanged(nameof(PossibleNumbers));  
+            }
+        }
 
         public bool IsFixed { get; set; }
         public int Row { get; set; }
@@ -117,9 +127,12 @@ namespace Sudoku.Models.Sections
             return true;
         }
 
-        public IList<int> GetPossibleNumbers(IList<int> possibleNumbersList)
+        public IList<int> GetPossibleNumbers()
         {
             IList<int> possibleNumbers = new List<int>();
+            IList<int> possibleNumbersRegion = new List<int>();
+            IList<int> possibleNumbersRow = new List<int>();
+            IList<int> possibleNumbersCol = new List<int>();
 
             foreach (ISectionComponent parentSection in parentSections)
             {
@@ -128,11 +141,8 @@ namespace Sudoku.Models.Sections
                 ColumnSection colSection = parentSection as ColumnSection;
 
                 List<int> allPossibleNumbers = new List<int>();
-                allPossibleNumbers.AddRange(possibleNumbersList);
+                allPossibleNumbers.AddRange(SudokuGameController.Instance.sudokuBoard.possibleNumbersList);
 
-                IList<int> possibleNumbersRegion = new List<int>();
-                IList<int> possibleNumbersRow = new List<int>();
-                IList<int> possibleNumbersCol = new List<int>();
 
 
                 if (regionSection != null)
@@ -143,7 +153,7 @@ namespace Sudoku.Models.Sections
                         if (c.Value != 0)
                             setNumbers.Add(c.Value);
                     }
-                    possibleNumbersRegion = (List<int>) allPossibleNumbers.Except(setNumbers);
+                    possibleNumbersRegion = allPossibleNumbers.Except(setNumbers).ToList();
                 }
                 else if (rowSection != null)
                 {
@@ -153,7 +163,7 @@ namespace Sudoku.Models.Sections
                         if (c.Value != 0)
                             setNumbers.Add(c.Value);
                     }
-                    possibleNumbersRow = (List<int>)allPossibleNumbers.Except(setNumbers);
+                    possibleNumbersRow = allPossibleNumbers.Except(setNumbers).ToList();
                 }
                 else if (colSection != null)
                 {
@@ -163,12 +173,12 @@ namespace Sudoku.Models.Sections
                         if (c.Value != 0)
                             setNumbers.Add(c.Value);
                     }
-                    possibleNumbersCol = (List<int>)allPossibleNumbers.Except(setNumbers);
+                    possibleNumbersCol = allPossibleNumbers.Except(setNumbers).ToList();
                 }
-
-                possibleNumbers = (List<int>)possibleNumbersRegion.Intersect(possibleNumbersRow);
-                possibleNumbers = (List<int>)possibleNumbers.Intersect(possibleNumbersCol);
+                
             }
+            possibleNumbers = possibleNumbersRegion.Intersect(possibleNumbersRow).ToList();
+            possibleNumbers = possibleNumbers.Intersect(possibleNumbersCol).ToList();
             return possibleNumbers;
         }
 

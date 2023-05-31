@@ -12,5 +12,7 @@ namespace Sudoku.Controllers.Factories
         public abstract IBoard CreateFourByFourBoard();
         public abstract IBoard CreateSixBySixBoard();
         public abstract IBoard CreateNineByNineBoard();
+        public abstract IBoard CreateSamuraiBoard(int size);
+        public abstract IBoard CreateJigsawBoard(int size);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Sudoku.Controllers.Strategies;
+﻿using Sudoku.Controllers;
+using Sudoku.Controllers.Strategies;
 using Sudoku.Models.Sections;
 using Sudoku.Models.State;
 using Sudoku.Models.Visitors;
@@ -92,7 +93,11 @@ namespace Sudoku.Models.Boards
 
         public void SetBoardContent(string content)
         {
-            if (content.Length != GetSize() * GetSize())
+            if (content.Equals(SudokuGameController.EMPTY_BOARD_CONTENT))
+            {
+                content = new string('0', GetSize() * GetSize());
+            }
+            else if (content.Length != GetSize() * GetSize())
             {
                 throw new ArgumentException("Invalid content length for setting board state.");
             }
@@ -154,11 +159,17 @@ namespace Sudoku.Models.Boards
         public void ValidateBoard()
         {
             Accept(new ValidateNumberVisitor());
+            StateHandle();
         }
 
         public void FillHintNumbers()
         {
             Accept(new CheckHintNumbersVisitor());
+        }
+
+        public void ClearHintNumbers()
+        {
+            Accept(new ClearHintNumbersVisitor());
         }
 
         public string GetOriginalContent()

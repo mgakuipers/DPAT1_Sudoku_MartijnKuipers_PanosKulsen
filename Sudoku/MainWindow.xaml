@@ -14,9 +14,11 @@
 
         <!-- Buttons for controlling the game -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
-            <Button x:Name="btnNewGame" Content="New Game" Width="100" Click="btnNewGame_Click" />
+            <Button x:Name="btnLoadGame" Content="Load Game" Width="100" Click="btnLoadGame_Click" />
+            <Button x:Name="btnToggleState" Content="Switch State" Width="100" Click="btnToggle_Click" />
             <Button x:Name="btnSolve" Content="Solve" Width="100" Click="btnSolve_Click" />
             <Button x:Name="btnReset" Content="Reset" Width="100" Click="btnReset_Click" />
+            <Button x:Name="btnNewGame" Content="New Game" Width="100" Click="btnNewGame_Click" />
         </StackPanel>
     </Grid>
 </Window>

@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:Sudoku.Views.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
+        <ListView x:Name="myListView" ItemsSource="{Binding PossibleNumbers}" VirtualizingStackPanel.IsVirtualizing="False" Margin="0,0,665,315"></ListView>
         <Border BorderBrush="Black" BorderThickness="1">
             <TextBox x:Name="cell" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" TextAlignment="Center">
                 <TextBox.Style>

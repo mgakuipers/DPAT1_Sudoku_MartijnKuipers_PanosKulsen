@@ -13,6 +13,7 @@ namespace Sudoku.ViewModels
     {
         private CellSection cellModel;
         private int _value;
+        private IList<int> _possibleNumbers;
         private bool _isValid = true;
         private bool _isFixed = false;
 
@@ -27,6 +28,16 @@ namespace Sudoku.ViewModels
                     OnPropertyChanged(nameof(IsValid));
                 }
             }
+        }
+
+        public IList<int> PossibleNumbers 
+        { 
+            get { return _possibleNumbers; }
+            set 
+            { 
+                _possibleNumbers = value;
+                OnPropertyChanged(nameof(PossibleNumbers));
+            } 
         }
 
         public int Value
@@ -76,6 +87,10 @@ namespace Sudoku.ViewModels
             if (e.PropertyName == nameof(CellSection.Value))
             {
                 Value = cellModel.Value;
+            }
+            if (e.PropertyName == nameof(CellSection.PossibleNumbers))
+            {
+                PossibleNumbers = cellModel.PossibleNumbers;
             }
         }
     }

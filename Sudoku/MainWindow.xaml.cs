@@ -20,6 +20,7 @@ using System.IO;
 using System.ComponentModel;
 using Sudoku.Models.Sections;
 using System.Threading;
+using Sudoku.Models.State;
 
 namespace Sudoku
 {
@@ -68,6 +69,7 @@ namespace Sudoku
                     // Get the cell value from the Sudoku board
                     CellSection cell = sudokuBoard.GetCell(row, col);
                     int cellValue = cell.Value;
+                    //List<int> cellPossibleNumbers = cell.PossibleNumbers as List<int>;
                     double cellSize = 35;
 
                     // Create an instance of the CellView
@@ -79,7 +81,7 @@ namespace Sudoku
                     int regionRow = regionIndex / horizontalSize;
                     int regionCol = regionIndex % horizontalSize;
                     regionIndex = regionRow * verticalSize + regionCol;
-                    if ((boardSize / horizontalSize) % 2 == 1)
+                    /*if ((boardSize / horizontalSize) % 2 == 1)
                     {
                         if (regionIndex % 2 == 0)
                         {
@@ -97,11 +99,12 @@ namespace Sudoku
                         {
                             cellView.cell.Background = Brushes.Bisque;
                         }
-                    }
+                    }*/
 
                     // Set the DataContext of the CellView to the corresponding CellViewModel
                     CellViewModel cellViewModel = new CellViewModel(cell);
-                    cellViewModel.Value = cellValue; 
+                    cellViewModel.Value = cellValue;
+                    //cellViewModel.PossibleNumbers = cellPossibleNumbers;
                     cellViewModel.PropertyChanged += CellViewModel_PropertyChanged; // Subscribe to the PropertyChanged event
                     cellView.DataContext = cellViewModel;
 
@@ -126,18 +129,25 @@ namespace Sudoku
             }
         }
 
-        private void SudokuBoard_BoardStateChanged(object sender, EventArgs e)
+        private void btnToggle_Click(object sender, RoutedEventArgs e)
         {
-            // Handle the Sudoku board state change event
-            // Update the UI based on the new state
+            BoardSection sudokuBoard = this.sudokuBoard as BoardSection;
+
+            switch (sudokuBoard.boardState.GetStateName())
+            {
+                case "HelperState":
+                    sudokuBoard.boardState = new NormalState();
+                    break;
+                case "NormalState":
+                    sudokuBoard.boardState = new HelperState();
+                    break;
+                default:
+                    sudokuBoard.boardState = new NormalState();
+                    break;
+            }
         }
 
-        private void btnHint_Click(object sender, EventArgs e)
-        {
-            sudokuBoard.FillHintNumbers();
-        }
-
-        private void btnNewGame_Click(object sender, RoutedEventArgs e)
+        private void btnLoadGame_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Sudoku Files (*.4x4;*.6x6;*.9x9;*.jigsaw;*.samurai)|*.4x4;*.6x6;*.9x9;*.jigsaw;*.samurai";
@@ -193,6 +203,24 @@ namespace Sudoku
                     Thread.CurrentThread.IsBackground = true;
                     sudokuBoard.SolveBoard();
                     isSolving = false;
+                }).Start();
+            }
+        }
+
+        private void btnNewGame_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Add option to create 4x4 and 6x6
+            // Might be unnecessary check
+            if (!isSolving)
+            {
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    this.sudokuBoard = SudokuGameController.Instance.CreateNineByNineBoard();
+                    Dispatcher.Invoke(() =>
+                    {
+                        GenerateNormalBoardUI();
+                    });
                 }).Start();
             }
         }

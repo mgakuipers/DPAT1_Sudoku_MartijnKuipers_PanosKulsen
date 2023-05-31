@@ -12,5 +12,15 @@ namespace Sudoku.Models.State
         {
             throw new NotImplementedException();
         }
+
+        public override string GetStateName()
+        {
+            return "SolveState";
+        }
+
+        public override void Handle()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

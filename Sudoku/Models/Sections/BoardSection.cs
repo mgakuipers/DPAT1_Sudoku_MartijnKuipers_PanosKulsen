@@ -26,7 +26,9 @@ namespace Sudoku.Models.Sections
         public IList<RowSection> rows = new List<RowSection>();
         public IList<ColumnSection> cols = new List<ColumnSection>();
 
-        private BoardState boardState;
+        private BoardState _boardState;
+
+        public BoardState boardState { get => _boardState; set => _boardState = value; }
         private SolveStrategy solveStrategy;
 
         public BoardSection(BoardState boardState, SolveStrategy solveStrategy, int size)
@@ -35,10 +37,9 @@ namespace Sudoku.Models.Sections
             this.solveStrategy = solveStrategy;
             this.size = size;
         }
-
-        public void SetBoardState(BoardState boardState)
+        public void StateHandle()
         {
-            this.boardState = boardState;
+            this.boardState.Handle();
         }
         public void SetSolveStrategy(SolveStrategy solveStrategy)
         {
