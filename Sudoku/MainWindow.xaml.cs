@@ -42,7 +42,7 @@ namespace Sudoku
             gameController = SudokuGameController.Instance;
 
             // Create a new Sudoku board
-            sudokuBoard = gameController.CreateNineByNineBoard();
+            sudokuBoard = gameController.CreateNormalBoard();
 
             // Add event handler for board state change
             // sudokuBoard.BoardStateChanged += SudokuBoard_BoardStateChanged;
@@ -69,19 +69,22 @@ namespace Sudoku
                     // Get the cell value from the Sudoku board
                     CellSection cell = sudokuBoard.GetCell(row, col);
                     int cellValue = cell.Value;
-                    //List<int> cellPossibleNumbers = cell.PossibleNumbers as List<int>;
                     double cellSize = 35;
+                    double gridHeight = 50;
 
                     // Create an instance of the CellView
                     CellView cellView = new CellView();
                     cellView.cell.Width = cellSize;
                     cellView.cell.Height = cellSize;
+                    cellView.gridView.Width = cellSize;
+                    cellView.gridView.Height = cellSize + gridHeight;
 
                     int regionIndex = (row / verticalSize) * horizontalSize + (col / horizontalSize);
                     int regionRow = regionIndex / horizontalSize;
                     int regionCol = regionIndex % horizontalSize;
                     regionIndex = regionRow * verticalSize + regionCol;
-                    /*if ((boardSize / horizontalSize) % 2 == 1)
+
+                    if ((boardSize / horizontalSize) % 2 == 1)
                     {
                         if (regionIndex % 2 == 0)
                         {
@@ -99,18 +102,17 @@ namespace Sudoku
                         {
                             cellView.cell.Background = Brushes.Bisque;
                         }
-                    }*/
+                    }
 
                     // Set the DataContext of the CellView to the corresponding CellViewModel
                     CellViewModel cellViewModel = new CellViewModel(cell);
                     cellViewModel.Value = cellValue;
-                    //cellViewModel.PossibleNumbers = cellPossibleNumbers;
                     cellViewModel.PropertyChanged += CellViewModel_PropertyChanged; // Subscribe to the PropertyChanged event
                     cellView.DataContext = cellViewModel;
 
                     // Position the TextBox on the Canvas
                     double left = col * cellSize;
-                    double top = row * cellSize;
+                    double top = row * (cellSize + gridHeight);
                     Canvas.SetLeft(cellView, left);
                     Canvas.SetTop(cellView, top);
 
@@ -160,19 +162,19 @@ namespace Sudoku
                 switch (fileExtension)
                 {
                     case ".4x4":
-                        sudokuBoard = SudokuGameController.Instance.CreateFourByFourBoard();
+                        sudokuBoard = SudokuGameController.Instance.CreateNormalBoard(4);
                         break;
                     case ".6x6":
-                        sudokuBoard = SudokuGameController.Instance.CreateSixBySixBoard();
+                        sudokuBoard = SudokuGameController.Instance.CreateNormalBoard(6);
                         break;
                     case ".9x9":
-                        sudokuBoard = SudokuGameController.Instance.CreateNineByNineBoard();
+                        sudokuBoard = SudokuGameController.Instance.CreateNormalBoard();
                         break;
                     case ".jigsaw":
-                        // Handle jigsaw board format
+                        sudokuBoard = SudokuGameController.Instance.CreateJigsawBoard();
                         break;
                     case ".samurai":
-                        // Handle samurai board format
+                        sudokuBoard = SudokuGameController.Instance.CreateSamuraiBoard();
                         break;
                     default:
                         MessageBox.Show("Unsupported file format. Please select a valid Sudoku file.");
@@ -216,7 +218,7 @@ namespace Sudoku
                 new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
-                    this.sudokuBoard = SudokuGameController.Instance.CreateNineByNineBoard();
+                    this.sudokuBoard = SudokuGameController.Instance.CreateNormalBoard();
                     Dispatcher.Invoke(() =>
                     {
                         GenerateNormalBoardUI();

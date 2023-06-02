@@ -30,23 +30,9 @@ namespace Sudoku.Controllers
             }
         }
 
-        public IBoard CreateFourByFourBoard()
+        public IBoard CreateNormalBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateFourByFourBoard();
-            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
-            return sudokuBoard;
-        }
-
-        public IBoard CreateSixBySixBoard()
-        {
-            sudokuBoard = _factory.CreateSixBySixBoard();
-            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
-            return sudokuBoard;
-        }
-
-        public IBoard CreateNineByNineBoard()
-        {
-            sudokuBoard = _factory.CreateNineByNineBoard();
+            sudokuBoard = _factory.CreateNormalBoard(size);
             sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
             return sudokuBoard;
         }

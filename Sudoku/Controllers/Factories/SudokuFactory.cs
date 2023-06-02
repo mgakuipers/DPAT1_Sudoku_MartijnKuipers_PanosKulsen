@@ -22,18 +22,9 @@ namespace Sudoku.Controllers.Factories
             specialSudokuBoardFactory.AddBoardTypes(nameof(JigsawBoard), typeof(JigsawBoard));
         }
 
-        //TODO: Misschien aanpassen naar 1 functie die gwn een size als param aanneemt. Dit is duplicate code die nauwelijks verschilt;
-        public override IBoard CreateFourByFourBoard()
+        public override IBoard CreateNormalBoard(int size)
         {
-            return normalBoardFactory.CreateBoard(nameof(NormalBoard), 4);
-        }
-        public override IBoard CreateSixBySixBoard()
-        {
-            return normalBoardFactory.CreateBoard(nameof(NormalBoard), 6);
-        }
-        public override IBoard CreateNineByNineBoard()
-        {
-            return normalBoardFactory.CreateBoard(nameof(NormalBoard), 9);
+            return normalBoardFactory.CreateBoard(nameof(NormalBoard), size);
         }
         public override IBoard CreateSamuraiBoard(int size)
         {

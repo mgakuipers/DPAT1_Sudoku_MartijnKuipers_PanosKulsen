@@ -24,7 +24,7 @@ namespace Sudoku.Models.Boards
             }
         }
 
-        private string orignalContent;
+        private string originalContent;
 
         public NormalBoard(BoardState boardState, SolveStrategy solveStrategy, int size) : base(boardState, solveStrategy, size)
         {
@@ -102,7 +102,7 @@ namespace Sudoku.Models.Boards
                 throw new ArgumentException("Invalid content length for setting board state.");
             }
 
-            this.orignalContent = content;
+            this.originalContent = content;
             CreateBoard();
 
             for (int row = 0; row < GetSize(); row++)
@@ -174,7 +174,7 @@ namespace Sudoku.Models.Boards
 
         public string GetOriginalContent()
         {
-            return this.orignalContent;
+            return this.originalContent;
         }
     }
 }

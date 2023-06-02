@@ -8,28 +8,37 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <ListView x:Name="myListView" ItemsSource="{Binding PossibleNumbers}" VirtualizingStackPanel.IsVirtualizing="False" Margin="0,0,665,315"></ListView>
+
         <Border BorderBrush="Black" BorderThickness="1">
-            <TextBox x:Name="cell" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" TextAlignment="Center">
-                <TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Text" Value="{Binding Value}" />
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="IsReadOnly" Value="{Binding IsFixed}" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsFixed}" Value="True">
-                                <Setter Property="Background" Value="LightGray" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsValid}" Value="False">
-                                <Setter Property="Background" Value="PaleVioletRed" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-        </Border> 
+            <Grid>
+                <ListView x:Name="gridView" VerticalAlignment="Top" ItemsSource="{Binding PossibleNumbers}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate >
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+                <TextBox x:Name="cell" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Text" Value="{Binding Value}" />
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="IsReadOnly" Value="{Binding IsFixed}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFixed}" Value="True">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                    <Setter Property="Background" Value="PaleVioletRed" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

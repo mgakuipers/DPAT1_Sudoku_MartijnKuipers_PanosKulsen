@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <!-- Sudoku board UI representation -->
+
         <Canvas Name="gridBoard" Margin="10">
             <!-- Placeholder for Sudoku cell elements -->
         </Canvas>
