@@ -5,21 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sudoku"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
         <!-- Sudoku board UI representation -->
-
-        <Canvas Name="gridBoard" Margin="10">
-            <!-- Placeholder for Sudoku cell elements -->
-        </Canvas>
+        <UniformGrid Name="gridBoard" Margin="0 0 0 50"></UniformGrid>
 
         <!-- Buttons for controlling the game -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <Button x:Name="btnNewGame" Content="New Game" Width="100" Click="btnNewGame_Click" />
             <Button x:Name="btnLoadGame" Content="Load Game" Width="100" Click="btnLoadGame_Click" />
             <Button x:Name="btnToggleState" Content="Switch State" Width="100" Click="btnToggle_Click" />
             <Button x:Name="btnSolve" Content="Solve" Width="100" Click="btnSolve_Click" />
             <Button x:Name="btnReset" Content="Reset" Width="100" Click="btnReset_Click" />
-            <Button x:Name="btnNewGame" Content="New Game" Width="100" Click="btnNewGame_Click" />
         </StackPanel>
     </Grid>
 </Window>

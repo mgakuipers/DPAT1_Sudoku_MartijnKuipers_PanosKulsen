@@ -61,6 +61,13 @@ namespace Sudoku
             int verticalSize = (int)Math.Sqrt(boardSize);
             int horizontalSize = boardSize / verticalSize;
 
+            double cellSize = 55;
+
+            gridBoard.Height = boardSize * cellSize;
+            gridBoard.Width = boardSize * cellSize;
+            gridBoard.Rows = boardSize;
+            gridBoard.Columns = boardSize;
+
             // Iterate over the cells in the Sudoku board and add UI elements for each cell
             for (int row = 0; row < boardSize; row++)
             {
@@ -69,58 +76,52 @@ namespace Sudoku
                     // Get the cell value from the Sudoku board
                     CellSection cell = sudokuBoard.GetCell(row, col);
                     int cellValue = cell.Value;
-                    double cellSize = 35;
-                    double gridHeight = 50;
 
                     // Create an instance of the CellView
                     CellView cellView = new CellView();
                     cellView.cell.Width = cellSize;
                     cellView.cell.Height = cellSize;
-                    cellView.gridView.Width = cellSize;
-                    cellView.gridView.Height = cellSize + gridHeight;
 
-                    int regionIndex = (row / verticalSize) * horizontalSize + (col / horizontalSize);
-                    int regionRow = regionIndex / horizontalSize;
-                    int regionCol = regionIndex % horizontalSize;
-                    regionIndex = regionRow * verticalSize + regionCol;
+                    cellView.PossibleNumbers.Margin = new Thickness(1, 0, 1, 0);
 
-                    if ((boardSize / horizontalSize) % 2 == 1)
+                    // Add border left, right, top or bottom depending on its position on the board
+                    int borderThicknessNumber = 2;
+                    Thickness borderThickness = new Thickness();
+                    if (col % horizontalSize == 0 && col != 0)
                     {
-                        if (regionIndex % 2 == 0)
-                        {
-                            cellView.cell.Background = Brushes.Bisque;
-                        }
+                        borderThickness.Left = borderThicknessNumber;
                     }
-                    else
+                    if (col % horizontalSize == horizontalSize - 1 && col != boardSize - 1)
                     {
-                        if (
-                            regionIndex == 0 ||
-                            regionIndex / 3f == 1.0 ||
-                            regionIndex / 4f == 1.0 ||
-                            regionIndex / 7f == 1.0
-                            )
-                        {
-                            cellView.cell.Background = Brushes.Bisque;
-                        }
+                        borderThickness.Right = borderThicknessNumber;
+                    }
+                    if (row % verticalSize == 0 && row != 0)
+                    {
+                        borderThickness.Top = borderThicknessNumber;
+                    }
+                    if (row % verticalSize == verticalSize - 1 && row != boardSize - 1)
+                    {
+                        borderThickness.Bottom = borderThicknessNumber;
                     }
 
                     // Set the DataContext of the CellView to the corresponding CellViewModel
                     CellViewModel cellViewModel = new CellViewModel(cell);
                     cellViewModel.Value = cellValue;
+                    cellViewModel.PossibleNumbers = cell.PossibleNumbers;
                     cellViewModel.PropertyChanged += CellViewModel_PropertyChanged; // Subscribe to the PropertyChanged event
                     cellView.DataContext = cellViewModel;
 
-                    // Position the TextBox on the Canvas
-                    double left = col * cellSize;
-                    double top = row * (cellSize + gridHeight);
-                    Canvas.SetLeft(cellView, left);
-                    Canvas.SetTop(cellView, top);
+                    // Add the TextBox to the UniformGrid
+                    Border border = new Border();
+                    border.BorderThickness = borderThickness;
+                    border.BorderBrush = Brushes.Black;
+                    border.Child = cellView;
 
-                    // Add the TextBox to the Canvas
-                    gridBoard.Children.Add(cellView);
+                    gridBoard.Children.Add(border);
                 }
             }
         }
+
         private void CellViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Handle the PropertyChanged event of the CellViewModel

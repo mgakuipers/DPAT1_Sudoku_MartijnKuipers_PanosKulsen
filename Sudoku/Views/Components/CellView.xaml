@@ -8,17 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-
         <Border BorderBrush="Black" BorderThickness="1">
             <Grid>
-                <ListView x:Name="gridView" VerticalAlignment="Top" ItemsSource="{Binding PossibleNumbers}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate >
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
-                <TextBox x:Name="cell" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" TextAlignment="Center">
+                <TextBox x:Name="cell" FontSize="28" FontWeight="Bold" TextAlignment="Center" VerticalContentAlignment="Center">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
                             <Setter Property="Text" Value="{Binding Value}" />
@@ -38,6 +30,20 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
+                <UniformGrid x:Name="PossibleNumbers" VerticalAlignment="Top" Rows="1" HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{Binding PossibleNumbers}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="8" Margin="0.5 0 0.5 0"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </UniformGrid>
             </Grid>
         </Border>
     </Grid>
