@@ -10,7 +10,7 @@ using Sudoku.Models.Visitors;
 
 namespace Sudoku.Models.Sections
 {
-    public class CellSection : ISectionComponent, System.ComponentModel.INotifyPropertyChanged
+    public class CellSection : ISectionComponent, INotifyPropertyChanged
     {
         private bool _isValid = true;
         private int _value = 0;

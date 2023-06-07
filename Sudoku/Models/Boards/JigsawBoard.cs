@@ -17,6 +17,16 @@ namespace Sudoku.Models.Boards
 
         public IList<int> possibleNumbersList { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public BoardState GetBoardState()
+        {
+            return this.boardState;
+        }
+
+        public void SetBoardState(BoardState boardState)
+        {
+            this.boardState = boardState;
+        }
+
         public void ClearHintNumbers()
         {
             throw new NotImplementedException();

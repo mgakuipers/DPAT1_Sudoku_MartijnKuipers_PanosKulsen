@@ -134,20 +134,22 @@ namespace Sudoku
 
         private void btnToggle_Click(object sender, RoutedEventArgs e)
         {
-            BoardSection sudokuBoard = this.sudokuBoard as BoardSection;
-
-            switch (sudokuBoard.boardState.GetStateName())
+            switch (sudokuBoard.GetBoardState().GetStateName())
             {
                 case "HelperState":
-                    sudokuBoard.boardState = new NormalState();
+                    sudokuBoard.SetBoardState(new NormalState());
+                    btnToggleState.Content = "Switch to HelperState";
                     break;
                 case "NormalState":
-                    sudokuBoard.boardState = new HelperState();
+                    sudokuBoard.SetBoardState(new HelperState());
+                    btnToggleState.Content = "Switch to NormalState";
                     break;
                 default:
-                    sudokuBoard.boardState = new NormalState();
+                    sudokuBoard.SetBoardState(new NormalState());
+                    btnToggleState.Content = "Switch to HelperState";
                     break;
             }
+            sudokuBoard.GetBoardState().Handle();
         }
 
         private void btnLoadGame_Click(object sender, RoutedEventArgs e)

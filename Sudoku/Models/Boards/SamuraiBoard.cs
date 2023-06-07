@@ -36,6 +36,16 @@ namespace Sudoku.Models.Boards
             }
         }
 
+        public BoardState GetBoardState()
+        {
+            return this.boardState;
+        }
+
+        public void SetBoardState(BoardState boardState)
+        {
+            this.boardState = boardState;
+        }
+
         public void CreateBoard()
         {
             cells = new List<CellSection>();
