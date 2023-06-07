@@ -35,6 +35,16 @@ namespace Sudoku.Models.Boards
             }
         }
 
+        public BoardState GetBoardState()
+        {
+            return this.boardState;
+        }
+
+        public void SetBoardState(BoardState boardState)
+        {
+            this.boardState = boardState;
+        }
+
         public void CreateBoard()
         {
             cells = new List<CellSection>();
@@ -70,7 +80,8 @@ namespace Sudoku.Models.Boards
                     CellSection cell = new CellSection();
                     cell.Row = rowIndex;
                     cell.Column = colIndex;
-                    cell.PossibleNumbers = possibleNumbersList;
+                    if(GetBoardState().GetStateName() == (new HelperState()).GetStateName())
+                        cell.PossibleNumbers = possibleNumbersList;
 
                     cells.Add(cell);
 
