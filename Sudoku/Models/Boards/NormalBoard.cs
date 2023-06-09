@@ -6,6 +6,7 @@ using Sudoku.Models.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
@@ -171,6 +172,18 @@ namespace Sudoku.Models.Boards
         {
             Accept(new ValidateNumberVisitor());
             StateHandle();
+        }
+
+        public bool IsValidBoard()
+        {
+            foreach(CellSection child in this.children)
+            {
+                if(!child.IsValid)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public void FillHintNumbers()

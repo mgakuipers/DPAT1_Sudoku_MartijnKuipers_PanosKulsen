@@ -212,6 +212,11 @@ namespace Sudoku.Models.Boards
             StateHandle();
         }
 
+        public bool IsValidBoard()
+        {
+            throw new NotImplementedException();
+        }
+
         public void FillHintNumbers()
         {
             Accept(new CheckHintNumbersVisitor());

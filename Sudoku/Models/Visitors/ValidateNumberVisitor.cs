@@ -14,20 +14,19 @@ namespace Sudoku.Models.Visitors
         {
             foreach (CellSection child in element.children)
             {
-                if (child.Value == 0)
-                    continue;
-
                 child.IsValid = (IsValidValue(child) && IsValueUnique(child));
             }
         }
 
         private bool IsValidValue(CellSection cell)
         {
+            if(cell.Value == 0) return true;
             return SudokuGameController.Instance.sudokuBoard.possibleNumbersList.Contains(cell.Value);
         }
 
         private bool IsValueUnique(CellSection cell)
         {
+            if (cell.Value == 0) return true;
             return cell.IsValidValue(cell);
         }
     }

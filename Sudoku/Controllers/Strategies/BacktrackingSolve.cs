@@ -14,6 +14,10 @@ namespace Sudoku.Controllers.Strategies
     {
         public override void Solve(BoardSection board)
         {
+            // Don't solve the board when the board is invalid
+            if(!SudokuGameController.Instance.sudokuBoard.IsValidBoard())
+                return;
+
             SolveBoard(board);
         }
 
@@ -43,7 +47,7 @@ namespace Sudoku.Controllers.Strategies
                 }
 
                 // Wait 1 ms before going further (to visualize the process)
-                Thread.Sleep(1);
+                // Thread.Sleep(1);
             }
 
             // If no number can be assigned to the cell, backtrack

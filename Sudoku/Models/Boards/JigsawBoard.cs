@@ -61,5 +61,10 @@ namespace Sudoku.Models.Boards
         {
             throw new NotImplementedException();
         }
+
+        public bool IsValidBoard()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

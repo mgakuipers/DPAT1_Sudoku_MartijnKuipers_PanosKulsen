@@ -17,6 +17,7 @@ namespace Sudoku.Models.Boards
         void SetCell(int row, int col, int value);
         void SolveBoard();
         void ValidateBoard();
+        bool IsValidBoard();
         void FillHintNumbers();
         void ClearHintNumbers();
         IList<int> possibleNumbersList { get; set; }
