@@ -1,5 +1,6 @@
 ﻿using Sudoku.Controllers;
 using Sudoku.Controllers.Strategies;
+using Sudoku.Models.Enums;
 using Sudoku.Models.Sections;
 using Sudoku.Models.State;
 using Sudoku.Models.Visitors;
@@ -61,6 +62,7 @@ namespace Sudoku.Models.Boards
             {
                 boards.Add(new BoardSection(boardState, solveStrategy, size));
                 BoardSection currentBoard = boards[boardIndex];
+                currentBoard.SamuraiPosition = (SamuraiPositionEnum)(boardIndex+1);
                 for(var i = 0; i < size; i++)
                 {
                     currentBoard.regions.Add(new RegionSection());
@@ -98,82 +100,46 @@ namespace Sudoku.Models.Boards
                 ((List<RowSection>)rows).AddRange(currentBoard.rows);
                 ((List<ColumnSection>)cols).AddRange(currentBoard.cols);
             }
-            
-            //TODO: Maybe change to not use 5 different boards and just create long lists of cols, rows, regions.
-            // With empty cells in between.
-            // since setting a reference to a cell from a different board is impossible as they would have the wrong col and row index
-            // Another solution may be to keep a seperate map of cells that should be the same and if one gets updated, also update the other.
-            // Last solution is probably the easiest and cleanest.
-
+            SetLinkedCells();
         }
 
-        //WIP might not work
-        /*public void CreateBoard()
+        private void SetLinkedCells()
         {
-            IList<BoardSection> boardSections = new List<BoardSection>();
-
-            for(var i = 0; i < AMOUNT_OF_BOARDS; i++)
+            BoardSection centerBoard = boards.Where(board => board.SamuraiPosition.Equals(SamuraiPositionEnum.CENTER)).First();
+            foreach(BoardSection board in boards)
             {
-                //boardSections.Add(CreateBoardSection(new BoardSection(boardState, solveStrategy, size)));
-            }
-        }*/
-
-        /*public BoardSection CreateBoardSection(BoardSection boardSection)
-        {
-            boardSection.cells = new List<CellSection>();
-            boardSection.regions = new List<RegionSection>();
-            boardSection.rows = new List<RowSection>();
-            boardSection.cols = new List<ColumnSection>();
-
-            int blockSize = (int)Math.Sqrt(size);
-
-            // Initialize blocks list
-            for (var i = 0; i < size; i++)
-            {
-                boardSection.regions.Add(new RegionSection());
-            }
-            // Initialize rows list
-            for (var i = 0; i < size; i++)
-            {
-                boardSection.rows.Add(new RowSection());
-            }
-            // Initialize columns list
-            for (var i = 0; i < size; i++)
-            {
-                boardSection.cols.Add(new ColumnSection());
-            }
-
-            // Create corresponding sections for blocks, rows, and columns
-            int regionSizeHorizontal = GetHorizontalRegionSize();
-            int regionSizeVertical = GetVerticalRegionSize();
-            for (var rowIndex = 0; rowIndex < size; rowIndex++)
-            {
-                for (var colIndex = 0; colIndex < size; colIndex++)
+                int centerBoardRegionIndex = 0;
+                int boardRegionIndex = 0;
+                switch(board.SamuraiPosition)
                 {
-                    CellSection cell = new CellSection();
-                    cell.Row = rowIndex;
-                    cell.Column = colIndex;
-                    cell.PossibleNumbers = possibleNumbersList;
+                    case SamuraiPositionEnum.TOP_LEFT:
+                        centerBoardRegionIndex = 0;
+                        boardRegionIndex = 8;
+                        break;
 
-                    boardSection.cells.Add(cell);
+                    case SamuraiPositionEnum.TOP_RIGHT:
+                        centerBoardRegionIndex = 2;
+                        boardRegionIndex = 6;
+                        break;
 
-                    int regionIndex = CalculateRegionIndex(regionSizeHorizontal, regionSizeVertical, rowIndex, colIndex);
+                    case SamuraiPositionEnum.BOTTOM_LEFT:
+                        centerBoardRegionIndex = 6;
+                        boardRegionIndex = 2;
+                        break;
 
-                    RegionSection region = boardSection.regions[regionIndex];
-                    region.Add(cell);
-                    cell.parentSections.Add(region);
+                    case SamuraiPositionEnum.BOTTOM_RIGHT:
+                        centerBoardRegionIndex = 8;
+                        boardRegionIndex = 0;
+                        break;
+                }
 
-                    RowSection row = boardSection.rows[rowIndex];
-                    row.Add(cell);
-                    cell.parentSections.Add(row);
-
-                    ColumnSection col = boardSection.cols[colIndex];
-                    col.Add(cell);
-                    cell.parentSections.Add(col);
+                for (var i = 0; i < board.regions[boardRegionIndex].children.Count; i++)
+                {
+                    CellSection cell = board.regions[boardRegionIndex].children[i];
+                    centerBoard.regions[centerBoardRegionIndex].children[i].LinkedCell = cell;
                 }
             }
-            return boardSection;
-        }*/
+        }
 
         public void SetBoardContent(string content)
         {

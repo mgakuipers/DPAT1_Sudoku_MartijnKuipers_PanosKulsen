@@ -59,6 +59,7 @@
     <Compile Include="Models\Boards\JigsawBoard.cs" />
     <Compile Include="Models\Boards\NormalBoard.cs" />
     <Compile Include="Models\Boards\SamuraiBoard.cs" />
+    <Compile Include="Models\Enums\SamuraiPositionEnum.cs" />
     <Compile Include="Models\Sections\BoardSection.cs" />
     <Compile Include="Models\Visitors\ClearHintNumbersVisitor.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />

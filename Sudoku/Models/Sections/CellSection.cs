@@ -14,6 +14,7 @@ namespace Sudoku.Models.Sections
     {
         private bool _isValid = true;
         private int _value = 0;
+        private CellSection _linkedCell;
 
         private IList<ISectionComponent> _parentSections = new List<ISectionComponent>();
         public IList<ISectionComponent> parentSections => _parentSections;
@@ -22,13 +23,17 @@ namespace Sudoku.Models.Sections
         public IList<int> PossibleNumbers
         {
             get { return _possibleNumbers; }
-            set 
-            { 
+            set
+            {
                 _possibleNumbers = value;
-                OnPropertyChanged(nameof(PossibleNumbers));  
+                OnPropertyChanged(nameof(PossibleNumbers));
             }
         }
-
+        public CellSection LinkedCell
+        {
+            get { return _linkedCell; }
+            set { _linkedCell = value; }
+        }
         public bool IsFixed { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
@@ -41,6 +46,13 @@ namespace Sudoku.Models.Sections
                 {
                     _value = value;
                     OnPropertyChanged(nameof(Value));
+                }
+                if (LinkedCell != null)
+                {
+                    if (LinkedCell.Value != value)
+                    {
+                        LinkedCell.Value = value;
+                    }
                 }
             }
         }
@@ -175,7 +187,7 @@ namespace Sudoku.Models.Sections
                     }
                     possibleNumbersCol = allPossibleNumbers.Except(setNumbers).ToList();
                 }
-                
+
             }
             possibleNumbers = possibleNumbersRegion.Intersect(possibleNumbersRow).ToList();
             possibleNumbers = possibleNumbers.Intersect(possibleNumbersCol).ToList();

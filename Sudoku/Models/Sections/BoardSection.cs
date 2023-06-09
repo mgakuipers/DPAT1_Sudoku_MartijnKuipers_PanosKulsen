@@ -1,4 +1,5 @@
 ﻿using Sudoku.Controllers.Strategies;
+using Sudoku.Models.Enums;
 using Sudoku.Models.State;
 using Sudoku.Models.Visitors;
 using System;
@@ -13,6 +14,12 @@ namespace Sudoku.Models.Sections
 {
     public class BoardSection : ISectionComponent
     {
+        private SamuraiPositionEnum _samuraiPosition;
+        public SamuraiPositionEnum SamuraiPosition
+        {
+            get { return _samuraiPosition; }
+            set { _samuraiPosition = value; }
+        }
         private IList<ISectionComponent> _parentSections = new List<ISectionComponent>();
 
         public int size { get; private set; }
@@ -30,7 +37,7 @@ namespace Sudoku.Models.Sections
         public BoardState boardState { get => _boardState; set => _boardState = value; }
 
         private SolveStrategy _solveStrategy;
-        public SolveStrategy solveStrategy { get => _solveStrategy; set => _solveStrategy = value; }    
+        public SolveStrategy solveStrategy { get => _solveStrategy; set => _solveStrategy = value; }
 
         public BoardSection(BoardState boardState, SolveStrategy solveStrategy, int size)
         {
