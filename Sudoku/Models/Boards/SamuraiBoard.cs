@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Sudoku.Models.Boards
 {
@@ -58,12 +59,12 @@ namespace Sudoku.Models.Boards
             // Create corresponding sections for blocks, rows, and columns
             int regionSizeHorizontal = GetHorizontalRegionSize();
             int regionSizeVertical = GetVerticalRegionSize();
-            for(var boardIndex = 0; boardIndex < AMOUNT_OF_BOARDS; boardIndex++)
+            for (var boardIndex = 0; boardIndex < AMOUNT_OF_BOARDS; boardIndex++)
             {
                 boards.Add(new BoardSection(boardState, solveStrategy, size));
                 BoardSection currentBoard = boards[boardIndex];
-                currentBoard.SamuraiPosition = (SamuraiPositionEnum)(boardIndex+1);
-                for(var i = 0; i < size; i++)
+                currentBoard.SamuraiPosition = (SamuraiPositionEnum)(boardIndex + 1);
+                for (var i = 0; i < size; i++)
                 {
                     currentBoard.regions.Add(new RegionSection());
                     currentBoard.rows.Add(new RowSection());
@@ -103,14 +104,16 @@ namespace Sudoku.Models.Boards
             SetLinkedCells();
         }
 
+
+        //ER GAAT NOG IETS FOUT MET HET ZETTEN VAN DE CELLS UIT DE REGION.
         private void SetLinkedCells()
         {
             BoardSection centerBoard = boards.Where(board => board.SamuraiPosition.Equals(SamuraiPositionEnum.CENTER)).First();
-            foreach(BoardSection board in boards)
+            foreach (BoardSection board in boards)
             {
                 int centerBoardRegionIndex = 0;
                 int boardRegionIndex = 0;
-                switch(board.SamuraiPosition)
+                switch (board.SamuraiPosition)
                 {
                     case SamuraiPositionEnum.TOP_LEFT:
                         centerBoardRegionIndex = 0;
@@ -145,36 +148,49 @@ namespace Sudoku.Models.Boards
         {
             if (content.Equals(SudokuGameController.EMPTY_BOARD_CONTENT))
             {
-                content = new string('0', GetSize() * GetSize());
+                content = new string('0', GetSize() * GetSize() * AMOUNT_OF_BOARDS);
             }
-            else if (content.Length != GetSize() * GetSize())
+            else if (content.Length != GetSize() * GetSize() * AMOUNT_OF_BOARDS)
             {
-                throw new ArgumentException("Invalid content length for setting board state.");
+                MessageBox.Show(content.Length.ToString());
+                MessageBox.Show("Invalid content length for setting board state.");
+                return;
             }
 
             this.originalContent = content;
             CreateBoard();
-
-            for (int row = 0; row < GetSize(); row++)
+            for (var board = 0; board < AMOUNT_OF_BOARDS; board++)
             {
-                for (int col = 0; col < GetSize(); col++)
+                BoardSection currentBoard = boards[board];
+                for (int row = 0; row < GetSize(); row++)
                 {
-                    char cellChar = content[row * GetSize() + col];
-                    int cellValue;
+                    for (int col = 0; col < GetSize(); col++)
+                    {
+                        char cellChar;
+                        if (board == 0)
+                        {
+                            cellChar = content[row * GetSize() + col];
+                        }
+                        else
+                        {
+                            cellChar = content[board * row * GetSize() + col];
+                        }
+                        int cellValue;
 
-                    if (char.IsDigit(cellChar))
-                    {
-                        cellValue = int.Parse(cellChar.ToString());
-                    }
-                    else
-                    {
-                        cellValue = 0; // Treat non-digit characters as empty cells
-                    }
+                        if (char.IsDigit(cellChar))
+                        {
+                            cellValue = int.Parse(cellChar.ToString());
+                        }
+                        else
+                        {
+                            cellValue = 0; // Treat non-digit characters as empty cells
+                        }
 
-                    SetCell(row, col, cellValue);
-                    if (cellValue > 0)
-                    {
-                        GetCell(row, col).IsFixed = true;
+                        currentBoard.SetCell(row, col, cellValue);
+                        if (cellValue > 0)
+                        {
+                            currentBoard.GetCell(row, col).IsFixed = true;
+                        }
                     }
                 }
             }
@@ -182,24 +198,27 @@ namespace Sudoku.Models.Boards
 
         public bool IsSolved()
         {
-            // Check if all cells have non-zero values
-            for (int row = 0; row < size; row++)
+            foreach (BoardSection board in boards)
             {
-                for (int col = 0; col < size; col++)
+                // Check if all cells have non-zero values
+                for (int row = 0; row < size; row++)
                 {
-                    if (GetCell(row, col).Value == 0)
+                    for (int col = 0; col < size; col++)
+                    {
+                        if (board.GetCell(row, col).Value == 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                // Check if all rows, columns, and regions contain unique values
+                for (int i = 0; i < size; i++)
+                {
+                    if (!board.IsUnique())
                     {
                         return false;
                     }
-                }
-            }
-
-            // Check if all rows, columns, and regions contain unique values
-            for (int i = 0; i < size; i++)
-            {
-                if (!IsUnique())
-                {
-                    return false;
                 }
             }
 

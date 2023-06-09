@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 
 namespace Sudoku.Models.Boards
@@ -111,7 +112,8 @@ namespace Sudoku.Models.Boards
             }
             else if (content.Length != GetSize() * GetSize())
             {
-                throw new ArgumentException("Invalid content length for setting board state.");
+                MessageBox.Show("Invalid content length for setting board state.");
+                return;
             }
 
             this.originalContent = content;

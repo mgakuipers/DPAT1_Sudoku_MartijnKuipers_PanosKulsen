@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sudoku"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
-        Title="MainWindow" Height="600" Width="800">
+        SizeToContent="WidthAndHeight"
+        Title="MainWindow">
     <Grid>
+        <Canvas Name="samuraiGridBoard"></Canvas>
         <!-- Sudoku board UI representation -->
         <UniformGrid Name="gridBoard" Margin="0 0 0 50"></UniformGrid>
 

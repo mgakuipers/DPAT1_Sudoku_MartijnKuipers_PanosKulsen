@@ -21,6 +21,9 @@ using System.ComponentModel;
 using Sudoku.Models.Sections;
 using System.Threading;
 using Sudoku.Models.State;
+using System.Windows.Controls.Primitives;
+using System.Runtime.CompilerServices;
+using Sudoku.Models.Enums;
 
 namespace Sudoku
 {
@@ -122,11 +125,121 @@ namespace Sudoku
             }
         }
 
+        private void GenerateSamuraiBoardUI()
+        {
+            // Clear the existing UI elements
+            gridBoard.Children.Clear();
+
+            // Board variables
+            int boardSize = sudokuBoard.GetSize();
+            int verticalSize = (int)Math.Sqrt(boardSize);
+            int horizontalSize = boardSize / verticalSize;
+
+            double cellSize = 40;
+
+            // Iterate over the cells in the Sudoku board and add UI elements for each cell
+            foreach (BoardSection board in ((SamuraiBoard)sudokuBoard).boards)
+            {
+                UniformGrid currentBoardGrid = new UniformGrid();
+                currentBoardGrid.Margin = new Thickness(0, 0, 0, 5);
+                currentBoardGrid.Height = boardSize * cellSize;
+                currentBoardGrid.Width = boardSize * cellSize;
+                currentBoardGrid.Rows = boardSize;
+                currentBoardGrid.Columns = boardSize;
+
+                for (int row = 0; row < boardSize; row++)
+                {
+                    for (int col = 0; col < boardSize; col++)
+                    {
+                        // Get the cell value from the Sudoku board
+                        CellSection cell = board.GetCell(row, col);
+                        int cellValue = cell.Value;
+
+                        // Create an instance of the CellView
+                        CellView cellView = new CellView();
+                        cellView.cell.Width = cellSize;
+                        cellView.cell.Height = cellSize;
+
+                        cellView.PossibleNumbers.Margin = new Thickness(1, 0, 1, 0);
+
+                        // Add border left, right, top or bottom depending on its position on the board
+                        int borderThicknessNumber = 2;
+                        Thickness borderThickness = new Thickness();
+                        if (col % horizontalSize == 0 && col != 0)
+                        {
+                            borderThickness.Left = borderThicknessNumber;
+                        }
+                        if (col % horizontalSize == horizontalSize - 1 && col != boardSize - 1)
+                        {
+                            borderThickness.Right = borderThicknessNumber;
+                        }
+                        if (row % verticalSize == 0 && row != 0)
+                        {
+                            borderThickness.Top = borderThicknessNumber;
+                        }
+                        if (row % verticalSize == verticalSize - 1 && row != boardSize - 1)
+                        {
+                            borderThickness.Bottom = borderThicknessNumber;
+                        }
+
+                        // Set the DataContext of the CellView to the corresponding CellViewModel
+                        CellViewModel cellViewModel = new CellViewModel(cell);
+                        cellViewModel.Value = cellValue;
+                        cellViewModel.PossibleNumbers = cell.PossibleNumbers;
+                        cellViewModel.PropertyChanged += CellViewModel_PropertyChanged; // Subscribe to the PropertyChanged event
+                        cellView.DataContext = cellViewModel;
+
+                        // Add the TextBox to the UniformGrid
+                        Border border = new Border();
+                        border.BorderThickness = borderThickness;
+                        border.BorderBrush = Brushes.Black;
+                        border.Child = cellView;
+
+                        currentBoardGrid.Children.Add(border);
+                    }
+                }
+
+                double left = 0.0;
+                double top = 0.0;
+                switch (board.SamuraiPosition)
+                {
+                    case SamuraiPositionEnum.TOP_LEFT:
+                        left = 0.0;
+                        top = 0.0;
+                        break;
+
+                    case SamuraiPositionEnum.TOP_RIGHT:
+                        left = currentBoardGrid.Width + (currentBoardGrid.Width / 3);
+                        top = 0.0;
+                        break;
+
+                    case SamuraiPositionEnum.CENTER:
+                        left = 2 * (currentBoardGrid.Width / 3);
+                        top = 2 * (currentBoardGrid.Height / 3);
+                        break;
+
+                    case SamuraiPositionEnum.BOTTOM_LEFT:
+                        left = 0.0;
+                        top = currentBoardGrid.Height + (currentBoardGrid.Height / 3);
+                        break;
+
+                    case SamuraiPositionEnum.BOTTOM_RIGHT:
+                        left = currentBoardGrid.Width + (currentBoardGrid.Width / 3);
+                        top = currentBoardGrid.Height + (currentBoardGrid.Height / 3);
+                        break;
+                }
+                Canvas.SetLeft(currentBoardGrid, left);
+                Canvas.SetTop(currentBoardGrid, top);
+
+                samuraiGridBoard.Children.Add(currentBoardGrid);
+            }
+        }
+
         private void CellViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Handle the PropertyChanged event of the CellViewModel
             // Update the UI based on the property change, if needed
-            if(e.PropertyName == nameof(CellSection.Value))
+            if (e.PropertyName == nameof(CellSection.Value))
             {
                 sudokuBoard.ValidateBoard();
             }
@@ -187,10 +300,20 @@ namespace Sudoku
                 if (sudokuBoard != null)
                 {
                     string content = File.ReadAllText(filePath);
+                    content = new string(content.Where(c => !char.IsWhiteSpace(c)).ToArray<char>());
                     sudokuBoard.SetBoardContent(content);
 
                     // Update the UI to reflect the new board
-                    GenerateNormalBoardUI();
+                    //TODO: CHANGE SO IT CHECKS FOR TYPE INSTEAD OF LENGTH
+                    if (content.Length > 81)
+                    {
+                        GenerateSamuraiBoardUI();
+                    }
+                    else
+                    {
+
+                        GenerateNormalBoardUI();
+                    }
 
                     isSolving = false;
                 }
