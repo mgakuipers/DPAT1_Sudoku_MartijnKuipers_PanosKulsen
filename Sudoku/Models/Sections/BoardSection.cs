@@ -100,7 +100,7 @@ namespace Sudoku.Models.Sections
             }
         }
 
-        public void SolveBoard()
+        public virtual void SolveBoard()
         {
             solveStrategy.Solve(this);
         }

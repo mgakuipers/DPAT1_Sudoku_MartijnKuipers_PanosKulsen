@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -104,8 +105,6 @@ namespace Sudoku.Models.Boards
             SetLinkedCells();
         }
 
-
-        //ER GAAT NOG IETS FOUT MET HET ZETTEN VAN DE CELLS UIT DE REGION.
         private void SetLinkedCells()
         {
             BoardSection centerBoard = boards.Where(board => board.SamuraiPosition.Equals(SamuraiPositionEnum.CENTER)).First();
@@ -136,10 +135,16 @@ namespace Sudoku.Models.Boards
                         break;
                 }
 
-                for (var i = 0; i < board.regions[boardRegionIndex].children.Count; i++)
+                if (!board.SamuraiPosition.Equals(SamuraiPositionEnum.CENTER))
                 {
-                    CellSection cell = board.regions[boardRegionIndex].children[i];
-                    centerBoard.regions[centerBoardRegionIndex].children[i].LinkedCell = cell;
+                    for (var i = 0; i < board.regions[boardRegionIndex].children.Count; i++)
+                    {
+                        CellSection cell = board.regions[boardRegionIndex].children[i];
+                        centerBoard.regions[centerBoardRegionIndex].children[i].LinkedCell = cell;
+
+                        CellSection otherCell = centerBoard.regions[centerBoardRegionIndex].children[i];
+                        board.regions[boardRegionIndex].children[i].LinkedCell = otherCell;
+                    }
                 }
             }
         }
@@ -166,15 +171,14 @@ namespace Sudoku.Models.Boards
                 {
                     for (int col = 0; col < GetSize(); col++)
                     {
-                        char cellChar;
-                        if (board == 0)
+                        int boardOffset = 0;
+
+                        if (board != 0)
                         {
-                            cellChar = content[row * GetSize() + col];
+                            boardOffset = (board * GetSize() * GetSize());
                         }
-                        else
-                        {
-                            cellChar = content[board * row * GetSize() + col];
-                        }
+
+                        char cellChar = content[boardOffset + row * GetSize() + col];
                         int cellValue;
 
                         if (char.IsDigit(cellChar))
@@ -233,7 +237,20 @@ namespace Sudoku.Models.Boards
 
         public bool IsValidBoard()
         {
-            throw new NotImplementedException();
+            foreach (CellSection child in this.children)
+            {
+                if (!child.IsValid)
+                {
+                    return false;
+                }else if (child.LinkedCell != null)
+                {
+                    if (!child.LinkedCell.IsValid)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public void FillHintNumbers()
@@ -249,6 +266,11 @@ namespace Sudoku.Models.Boards
         public string GetOriginalContent()
         {
             return this.originalContent;
+        }
+
+        public override void SolveBoard()
+        {
+            MessageBox.Show("This function is not supported for Samurai.");
         }
     }
 }

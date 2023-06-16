@@ -15,7 +15,7 @@ namespace Sudoku.Controllers.Strategies
         public override void Solve(BoardSection board)
         {
             // Don't solve the board when the board is invalid
-            if(!SudokuGameController.Instance.sudokuBoard.IsValidBoard())
+            if (!SudokuGameController.Instance.sudokuBoard.IsValidBoard())
                 return;
 
             SolveBoard(board);
@@ -45,11 +45,7 @@ namespace Sudoku.Controllers.Strategies
                     // If the board cannot be solved with the current number, backtrack
                     board.GetCell(row, col).Value = 0;
                 }
-
-                // Wait 1 ms before going further (to visualize the process)
-                // Thread.Sleep(1);
             }
-
             // If no number can be assigned to the cell, backtrack
             return false;
         }
@@ -100,7 +96,7 @@ namespace Sudoku.Controllers.Strategies
             int regionSizeVertical = board.GetVerticalRegionSize();
             int regionSizeHorizontal = board.GetHorizontalRegionSize();
             int regionIndex = board.CalculateRegionIndex(regionSizeHorizontal, regionSizeVertical, row, col);
-            
+
             RegionSection regionSection = board.regions[regionIndex];
             foreach (CellSection c in regionSection.children)
             {

@@ -304,15 +304,18 @@ namespace Sudoku
                     sudokuBoard.SetBoardContent(content);
 
                     // Update the UI to reflect the new board
-                    //TODO: CHANGE SO IT CHECKS FOR TYPE INSTEAD OF LENGTH
-                    if (content.Length > 81)
+                    switch (SudokuGameController.Instance.sudokuBoard)
                     {
-                        GenerateSamuraiBoardUI();
-                    }
-                    else
-                    {
+                        case NormalBoard normalBoard:
+                            GenerateNormalBoardUI();
+                            break;
 
-                        GenerateNormalBoardUI();
+                        case SamuraiBoard samuraiBoard:
+                            GenerateSamuraiBoardUI();
+                            break;
+
+                        case JigsawBoard jigsawBoard:
+                            break;
                     }
 
                     isSolving = false;
