@@ -3,16 +3,28 @@ using Sudoku.Controllers;
 using Sudoku.Models.Boards;
 using Sudoku.Models.Sections;
 
-namespace UnitTests
+namespace UnitTests.NormalBoardTests
 {
-    public class BoardTest
+    public class BoardTest: IDisposable
     {
+        private NormalBoard norBoard;
+
+        public BoardTest()
+        {
+            // Create the board instance before each test
+            norBoard = (NormalBoard) SudokuGameController.Instance.CreateNormalBoard();
+        }
+
+        public void Dispose()
+        {
+            // Clean up resources after each test
+            norBoard = null;
+        }
+
         [Fact]
         public void TestEmptyBoard()
         {
             // Arrange
-            // Create a sample board
-            NormalBoard board = (NormalBoard) SudokuGameController.Instance.CreateNormalBoard();
 
             // Act
             // Check if the cells are empty
@@ -20,7 +32,7 @@ namespace UnitTests
             int expectedValue = 0;
 
             bool isValidEmptyBoard = true;
-            foreach(CellSection cell in board.cells)
+            foreach (CellSection cell in norBoard.cells)
             {
                 if (cell.Value != 0)
                 {
@@ -38,10 +50,8 @@ namespace UnitTests
         public void TestBoardIsFilled()
         {
             // Arrange
-            // Create a sample board
-            NormalBoard board = (NormalBoard) SudokuGameController.Instance.CreateNormalBoard();
             string inputString = "700509001000000000150070063003904100000050000002106400390040076000000000600201004";
-            board.SetBoardContent(inputString);
+            norBoard.SetBoardContent(inputString);
 
             // Act
             // Check if the cells have the correct corresponding values
@@ -49,9 +59,9 @@ namespace UnitTests
             int expectedValue = 0;
 
             bool isValidFilledBoard = true;
-            for (int i = 0; i < board.cells.Count; i++)
+            for (int i = 0; i < norBoard.cells.Count; i++)
             {
-                CellSection cell = board.cells[i];
+                CellSection cell = norBoard.cells[i];
                 char expectedChar = inputString[i];
 
                 if (cell.Value != int.Parse(expectedChar.ToString()))

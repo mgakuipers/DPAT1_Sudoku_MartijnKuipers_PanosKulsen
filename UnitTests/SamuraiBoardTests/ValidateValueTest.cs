@@ -2,22 +2,22 @@ using Sudoku.Controllers;
 using Sudoku.Models.Boards;
 using Sudoku.Models.Sections;
 
-namespace UnitTests
+namespace UnitTests.SamuraiBoardTests
 {
-    public class ValidateValueTest: IDisposable
+    public class ValidateValueTest : IDisposable
     {
-        private IBoard board;
+        private IBoard samIBoard;
 
         public ValidateValueTest()
         {
             // Create the board instance before each test
-            board = SudokuGameController.Instance.CreateNormalBoard();
+            samIBoard = SudokuGameController.Instance.CreateSamuraiBoard();
         }
 
         public void Dispose()
         {
             // Clean up resources after each test
-            board = null;
+            samIBoard = null;
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace UnitTests
             // Get a reference to a cell on the board
             int row = 0;
             int col = 0;
-            CellSection cell = board.GetCell(row, col);
+            CellSection cell = samIBoard.GetCell(row, col);
 
             // Set a valid value for the cell
             int validValue = 5;
@@ -47,11 +47,11 @@ namespace UnitTests
             // Get a reference to a cell on the board
             int row = 0;
             int col = 0;
-            CellSection cell = board.GetCell(row, col);
+            CellSection cell = samIBoard.GetCell(row, col);
 
             int row2 = 0;
             int col2 = 1;
-            CellSection cell2 = board.GetCell(row2, col2);
+            CellSection cell2 = samIBoard.GetCell(row2, col2);
 
             // Set a valid value for the cell
             int validValue = 5;
@@ -76,11 +76,11 @@ namespace UnitTests
             // Get a reference to a cell on the board
             int row = 0;
             int col = 0;
-            CellSection cell = board.GetCell(row, col);
+            CellSection cell = samIBoard.GetCell(row, col);
 
             int row2 = 0;
             int col2 = 1;
-            CellSection cell2 = board.GetCell(row2, col2);
+            CellSection cell2 = samIBoard.GetCell(row2, col2);
 
             // Set a invalid value for the cell
             int newValue = 5;
@@ -102,11 +102,11 @@ namespace UnitTests
             // Get a reference to a cell on the board
             int row = 0;
             int col = 0;
-            CellSection cell = board.GetCell(row, col);
+            CellSection cell = samIBoard.GetCell(row, col);
 
             int row2 = 0;
             int col2 = 8;
-            CellSection cell2 = board.GetCell(row2, col2);
+            CellSection cell2 = samIBoard.GetCell(row2, col2);
 
             // Set a invalid value for the cell
             int newValue = 5;
@@ -128,11 +128,11 @@ namespace UnitTests
             // Get a reference to a cell on the board
             int row = 0;
             int col = 0;
-            CellSection cell = board.GetCell(row, col);
+            CellSection cell = samIBoard.GetCell(row, col);
 
             int row2 = 8;
             int col2 = 0;
-            CellSection cell2 = board.GetCell(row2, col2);
+            CellSection cell2 = samIBoard.GetCell(row2, col2);
 
             // Set a invalid value for the cell
             int newValue = 5;

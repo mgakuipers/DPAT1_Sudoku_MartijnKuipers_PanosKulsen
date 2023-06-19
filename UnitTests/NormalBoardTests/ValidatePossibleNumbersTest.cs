@@ -2,29 +2,40 @@ using Sudoku.Controllers;
 using Sudoku.Models.Boards;
 using Sudoku.Models.Sections;
 
-namespace UnitTests
+namespace UnitTests.NormalBoardTests
 {
-    public class ValidatePossibleNumbersTest
+    public class ValidatePossibleNumbersTest: IDisposable
     {
+        private NormalBoard norNumbBoard;
+
+        public ValidatePossibleNumbersTest()
+        {
+            // Create the board instance before each test
+            norNumbBoard = (NormalBoard) SudokuGameController.Instance.CreateNormalBoard();
+        }
+
+        public void Dispose()
+        {
+            // Clean up resources after each test
+            norNumbBoard = null;
+        }
+
         [Fact]
         public void TestPossibleNumbers()
         {
             // Arrange
-            // Create a sample board
-            NormalBoard board = (NormalBoard)SudokuGameController.Instance.CreateNormalBoard();
-
             // Get references to three cells on the board
             int row = 0;
             int col = 0;
-            CellSection cell = board.GetCell(row, col);
+            CellSection cell = norNumbBoard.GetCell(row, col);
 
             int row2 = 0;
             int col2 = 1;
-            CellSection cell2 = board.GetCell(row2, col2);
+            CellSection cell2 = norNumbBoard.GetCell(row2, col2);
 
             int row3 = 0;
             int col3 = 2;
-            CellSection cell3 = board.GetCell(row3, col3);
+            CellSection cell3 = norNumbBoard.GetCell(row3, col3);
 
             // Set valid values for the first two cells
             int validValue = 5;
