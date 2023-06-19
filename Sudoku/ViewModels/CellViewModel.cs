@@ -52,6 +52,23 @@ namespace Sudoku.ViewModels
                     cellModel.Value = value;
 
                     OnPropertyChanged(nameof(Value));
+                    OnPropertyChanged(nameof(DisplayValue));
+                }
+            }
+        }
+
+        public string DisplayValue
+        {
+            get { return _value == 0 ? string.Empty : _value.ToString(); }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    Value = 0;
+                }
+                else if (int.TryParse(value, out int parsedValue))
+                {
+                    Value = parsedValue;
                 }
             }
         }
