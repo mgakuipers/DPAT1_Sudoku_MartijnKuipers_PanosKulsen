@@ -4,12 +4,8 @@ using Sudoku.Models.Enums;
 using Sudoku.Models.Sections;
 using Sudoku.Models.State;
 using Sudoku.Models.Visitors;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Sudoku.Models.Boards

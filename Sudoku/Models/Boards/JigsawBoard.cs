@@ -5,9 +5,6 @@ using Sudoku.Models.State;
 using Sudoku.Models.Visitors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Sudoku.Models.Boards
@@ -88,10 +85,6 @@ namespace Sudoku.Models.Boards
                     // SPECIALE FUNCTIE TOEVOEGEN OM REGIONS TE BEREKENEN VOOR JIGSAW
                     int regionIndex = CalculateRegionIndex(regionSizeHorizontal, regionSizeVertical, rowIndex, colIndex);
 
-                    RegionSection region = regions[regionIndex];
-                    region.Add(cell);
-                    cell.parentSections.Add(region);
-
                     RowSection row = rows[rowIndex];
                     row.Add(cell);
                     cell.parentSections.Add(row);
@@ -105,23 +98,31 @@ namespace Sudoku.Models.Boards
 
         public bool SetBoardContent(string content)
         {
+            int contentOffset = 9;
+            int itemOffset = 4;
             if (content.Equals(SudokuGameController.EMPTY_BOARD_CONTENT))
             {
-                content = new string('0', GetSize() * GetSize());
+                content = "SumoCueV1";
+                for(int i = 0; i < GetSize() * GetSize(); i++)
+                {
+                    content += "=0J0";
+                }
             }
-            else if (content.Length != GetSize() * GetSize())
+            else if (content.Length != GetSize() * GetSize() * itemOffset + contentOffset)
             {
                 return false;
             }
 
             this.originalContent = content;
             CreateBoard();
-
+            int valueOffset = contentOffset + 1;
+            int regionOffset = valueOffset + 2;
             for (int row = 0; row < GetSize(); row++)
             {
                 for (int col = 0; col < GetSize(); col++)
                 {
-                    char cellChar = content[row * GetSize() + col];
+                    char cellChar = content[row * GetSize() * itemOffset + col * itemOffset + valueOffset];
+                    char regionIndex = content[row * GetSize() * itemOffset + col * itemOffset + regionOffset];
                     int cellValue;
 
                     if (char.IsDigit(cellChar))
@@ -134,6 +135,7 @@ namespace Sudoku.Models.Boards
                     }
 
                     SetCell(row, col, cellValue);
+                    ChangeRegionForCell(GetCell(row, col), int.Parse(regionIndex.ToString()));
                     if (cellValue > 0)
                     {
                         GetCell(row, col).IsFixed = true;
@@ -142,6 +144,13 @@ namespace Sudoku.Models.Boards
             }
 
             return true;
+        }
+
+        private void ChangeRegionForCell(CellSection cell, int regionIndex)
+        {
+            RegionSection region = regions[regionIndex];
+            region.Add(cell);
+            cell.parentSections.Add(region);
         }
 
         public bool IsSolved()
