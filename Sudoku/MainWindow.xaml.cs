@@ -326,7 +326,11 @@ namespace Sudoku
                 {
                     string content = File.ReadAllText(filePath);
                     content = new string(content.Where(c => !char.IsWhiteSpace(c)).ToArray<char>());
-                    sudokuBoard.SetBoardContent(content);
+                    if(!sudokuBoard.SetBoardContent(content))
+                    {
+                        MessageBox.Show("Invalid content length for setting board state.");
+                    }
+                    
 
                     // Update the UI to reflect the new board
                     switch (SudokuGameController.Instance.sudokuBoard)
