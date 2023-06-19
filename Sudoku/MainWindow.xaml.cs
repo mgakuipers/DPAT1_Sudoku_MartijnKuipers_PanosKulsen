@@ -128,7 +128,7 @@ namespace Sudoku
 
             gridPanel.Children.Add(gridBoard);
 
-            this.UpdateLayout();
+            UpdateWindow();
         }
 
         private void GenerateSamuraiBoardUI()
@@ -249,6 +249,13 @@ namespace Sudoku
             samuraiCanvas.Height = cellSize * 21;
 
             gridPanel.Children.Add(samuraiCanvas);
+
+            UpdateWindow();
+        }
+
+        private void UpdateWindow()
+        {
+            btnToggleState.Content = "Switch to HelperState";
 
             this.UpdateLayout();
         }
