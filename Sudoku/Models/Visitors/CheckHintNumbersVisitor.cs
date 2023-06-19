@@ -13,9 +13,9 @@ namespace Sudoku.Models.Visitors
     {
         public void Visit(ISectionComponent element)
         {
-            foreach(CellSection child in element.children)
+            foreach (CellSection child in element.children)
             {
-                if(child.Value != 0)
+                if (child.Value != 0)
                 {
                     child.PossibleNumbers = new List<int>();
                     continue;
@@ -26,7 +26,16 @@ namespace Sudoku.Models.Visitors
 
         private void SetPossibleNumbers(CellSection cell)
         {
-            cell.PossibleNumbers = cell.GetPossibleNumbers();
+            IList<int> cellPossibleNumbers = cell.GetPossibleNumbers();
+            if (cell.LinkedCell != null)
+            {
+                IList<int> linkedCellPossibleNumbers = cell.LinkedCell.GetPossibleNumbers();
+                cell.PossibleNumbers = cellPossibleNumbers.Intersect(linkedCellPossibleNumbers).ToList();
+            }
+            else
+            {
+                cell.PossibleNumbers = cell.GetPossibleNumbers();
+            }
         }
     }
 }

@@ -78,7 +78,9 @@ namespace Sudoku.Models.Boards
                         CellSection cell = new CellSection();
                         cell.Row = rowIndex;
                         cell.Column = colIndex;
-                        cell.PossibleNumbers = possibleNumbersList;
+                        if (GetBoardState().GetStateName() == (new HelperState()).GetStateName())
+                            cell.PossibleNumbers = possibleNumbersList;
+                        
 
                         cells.Add(cell);
                         currentBoard.cells.Add(cell);
