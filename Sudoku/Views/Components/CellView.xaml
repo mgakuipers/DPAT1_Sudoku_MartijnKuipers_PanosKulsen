@@ -13,7 +13,7 @@
                 <TextBox x:Name="cell" FontSize="28" FontWeight="Bold" TextAlignment="Center" VerticalContentAlignment="Center">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
-                            <Setter Property="Text" Value="{Binding Value}" />
+                            <Setter Property="Text" Value="{Binding DisplayValue}" />
                             <Setter Property="Background" Value="White" />
                             <Setter Property="Foreground" Value="Black" />
                             <Setter Property="IsReadOnly" Value="{Binding IsFixed}" />
