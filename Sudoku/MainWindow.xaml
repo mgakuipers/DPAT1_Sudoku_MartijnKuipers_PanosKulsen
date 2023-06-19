@@ -8,9 +8,8 @@
         SizeToContent="WidthAndHeight"
         Title="MainWindow">
     <Grid>
-        <Canvas Name="samuraiGridBoard"></Canvas>
         <!-- Sudoku board UI representation -->
-        <UniformGrid Name="gridBoard" Margin="0 0 0 50"></UniformGrid>
+        <WrapPanel Name="gridPanel" Margin="5 5 5 50"></WrapPanel>
 
         <!-- Buttons for controlling the game -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">

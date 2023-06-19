@@ -57,7 +57,9 @@ namespace Sudoku
         private void GenerateNormalBoardUI()
         {
             // Clear the existing UI elements
-            gridBoard.Children.Clear();
+            gridPanel.Children.Clear();
+
+            UniformGrid gridBoard = new UniformGrid();
 
             // Board variables
             int boardSize = sudokuBoard.GetSize();
@@ -123,12 +125,19 @@ namespace Sudoku
                     gridBoard.Children.Add(border);
                 }
             }
+
+            gridPanel.Children.Add(gridBoard);
+
+            this.UpdateLayout();
         }
 
         private void GenerateSamuraiBoardUI()
         {
             // Clear the existing UI elements
-            gridBoard.Children.Clear();
+            gridPanel.Children.Clear();
+
+            // New canvas for board
+            Canvas samuraiCanvas = new Canvas();
 
             // Board variables
             int boardSize = sudokuBoard.GetSize();
@@ -136,6 +145,7 @@ namespace Sudoku
             int horizontalSize = boardSize / verticalSize;
 
             double cellSize = 40;
+            double cellFontSize = 18;
 
             // Iterate over the cells in the Sudoku board and add UI elements for each cell
             foreach (BoardSection board in ((SamuraiBoard)sudokuBoard).boards)
@@ -159,6 +169,7 @@ namespace Sudoku
                         CellView cellView = new CellView();
                         cellView.cell.Width = cellSize;
                         cellView.cell.Height = cellSize;
+                        cellView.cell.FontSize = cellFontSize;
 
                         cellView.PossibleNumbers.Margin = new Thickness(1, 0, 1, 0);
 
@@ -231,8 +242,15 @@ namespace Sudoku
                 Canvas.SetLeft(currentBoardGrid, left);
                 Canvas.SetTop(currentBoardGrid, top);
 
-                samuraiGridBoard.Children.Add(currentBoardGrid);
+                samuraiCanvas.Children.Add(currentBoardGrid);
             }
+
+            samuraiCanvas.Width = cellSize * 21;
+            samuraiCanvas.Height = cellSize * 21;
+
+            gridPanel.Children.Add(samuraiCanvas);
+
+            this.UpdateLayout();
         }
 
         private void CellViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
