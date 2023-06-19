@@ -55,8 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\Factories\SpecialSudokuBoardFactory.cs" />
+    <Compile Include="Models\Boards\JigsawBoard.cs" />
     <Compile Include="Models\Boards\NormalBoard.cs" />
+    <Compile Include="Models\Boards\SamuraiBoard.cs" />
+    <Compile Include="Models\Enums\SamuraiPositionEnum.cs" />
     <Compile Include="Models\Sections\BoardSection.cs" />
+    <Compile Include="Models\Visitors\ClearHintNumbersVisitor.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CellViewModel.cs" />
     <Compile Include="ViewModels\SudokuGameViewModel.cs" />

@@ -1,4 +1,5 @@
 ﻿using Sudoku.Controllers.Strategies;
+using Sudoku.Models.Enums;
 using Sudoku.Models.State;
 using Sudoku.Models.Visitors;
 using System;
@@ -13,6 +14,12 @@ namespace Sudoku.Models.Sections
 {
     public class BoardSection : ISectionComponent
     {
+        private SamuraiPositionEnum _samuraiPosition;
+        public SamuraiPositionEnum SamuraiPosition
+        {
+            get { return _samuraiPosition; }
+            set { _samuraiPosition = value; }
+        }
         private IList<ISectionComponent> _parentSections = new List<ISectionComponent>();
 
         public int size { get; private set; }
@@ -26,8 +33,11 @@ namespace Sudoku.Models.Sections
         public IList<RowSection> rows = new List<RowSection>();
         public IList<ColumnSection> cols = new List<ColumnSection>();
 
-        private BoardState boardState;
-        private SolveStrategy solveStrategy;
+        private BoardState _boardState;
+        public BoardState boardState { get => _boardState; set => _boardState = value; }
+
+        private SolveStrategy _solveStrategy;
+        public SolveStrategy solveStrategy { get => _solveStrategy; set => _solveStrategy = value; }
 
         public BoardSection(BoardState boardState, SolveStrategy solveStrategy, int size)
         {
@@ -35,14 +45,9 @@ namespace Sudoku.Models.Sections
             this.solveStrategy = solveStrategy;
             this.size = size;
         }
-
-        public void SetBoardState(BoardState boardState)
+        public void StateHandle()
         {
-            this.boardState = boardState;
-        }
-        public void SetSolveStrategy(SolveStrategy solveStrategy)
-        {
-            this.solveStrategy = solveStrategy;
+            this.boardState.Handle();
         }
 
         public CellSection GetCell(int row, int col)
@@ -95,7 +100,7 @@ namespace Sudoku.Models.Sections
             }
         }
 
-        public void SolveBoard()
+        public virtual void SolveBoard()
         {
             solveStrategy.Solve(this);
         }

@@ -6,15 +6,13 @@ using Sudoku.Models.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace Sudoku.Models.Boards
 {
-    public class NormalBoard : BoardSection, IBoard
+    public class JigsawBoard : BoardSection, IBoard
     {
         private IList<int> _possibleNumbersList = new List<int>();
         public IList<int> possibleNumbersList
@@ -28,7 +26,7 @@ namespace Sudoku.Models.Boards
 
         private string originalContent;
 
-        public NormalBoard(BoardState boardState, SolveStrategy solveStrategy, int size) : base(boardState, solveStrategy, size)
+        public JigsawBoard(BoardState boardState, SolveStrategy solveStrategy, int size) : base(boardState, solveStrategy, size)
         {
             // Initialize possible numbers list
             for (var i = 1; i <= size; i++)
@@ -82,11 +80,12 @@ namespace Sudoku.Models.Boards
                     CellSection cell = new CellSection();
                     cell.Row = rowIndex;
                     cell.Column = colIndex;
-                    if(GetBoardState().GetStateName() == (new HelperState()).GetStateName())
+                    if (GetBoardState().GetStateName() == (new HelperState()).GetStateName())
                         cell.PossibleNumbers = possibleNumbersList;
 
                     cells.Add(cell);
 
+                    // SPECIALE FUNCTIE TOEVOEGEN OM REGIONS TE BEREKENEN VOOR JIGSAW
                     int regionIndex = CalculateRegionIndex(regionSizeHorizontal, regionSizeVertical, rowIndex, colIndex);
 
                     RegionSection region = regions[regionIndex];
@@ -178,9 +177,9 @@ namespace Sudoku.Models.Boards
 
         public bool IsValidBoard()
         {
-            foreach(CellSection child in this.children)
+            foreach (CellSection child in this.children)
             {
-                if(!child.IsValid)
+                if (!child.IsValid)
                 {
                     return false;
                 }

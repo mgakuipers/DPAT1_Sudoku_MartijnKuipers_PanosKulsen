@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Sudoku.ViewModels
@@ -13,6 +14,7 @@ namespace Sudoku.ViewModels
     {
         private CellSection cellModel;
         private int _value;
+        private IList<int> _possibleNumbers;
         private bool _isValid = true;
         private bool _isFixed = false;
 
@@ -29,6 +31,16 @@ namespace Sudoku.ViewModels
             }
         }
 
+        public IList<int> PossibleNumbers 
+        { 
+            get { return _possibleNumbers; }
+            set 
+            { 
+                _possibleNumbers = value;
+                OnPropertyChanged(nameof(PossibleNumbers));
+            } 
+        }
+
         public int Value
         {
             get { return _value; }
@@ -40,6 +52,23 @@ namespace Sudoku.ViewModels
                     cellModel.Value = value;
 
                     OnPropertyChanged(nameof(Value));
+                    OnPropertyChanged(nameof(DisplayValue));
+                }
+            }
+        }
+
+        public string DisplayValue
+        {
+            get { return _value == 0 ? string.Empty : _value.ToString(); }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    Value = 0;
+                }
+                else if (int.TryParse(value, out int parsedValue))
+                {
+                    Value = parsedValue;
                 }
             }
         }
@@ -76,6 +105,10 @@ namespace Sudoku.ViewModels
             if (e.PropertyName == nameof(CellSection.Value))
             {
                 Value = cellModel.Value;
+            }
+            if (e.PropertyName == nameof(CellSection.PossibleNumbers))
+            {
+                PossibleNumbers = cellModel.PossibleNumbers;
             }
         }
     }

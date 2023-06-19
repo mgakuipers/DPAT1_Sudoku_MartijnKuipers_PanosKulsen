@@ -1,4 +1,5 @@
-﻿using Sudoku.Models.Boards;
+﻿using Sudoku.Controllers;
+using Sudoku.Models.Boards;
 using Sudoku.Models.Sections;
 using System;
 using System.Collections.Generic;
@@ -10,26 +11,31 @@ namespace Sudoku.Models.Visitors
 {
     public class CheckHintNumbersVisitor : IVisitor
     {
-        private readonly NormalBoard normalBoard;
-        public CheckHintNumbersVisitor(NormalBoard normalBoard)
-        {
-            this.normalBoard = normalBoard;
-        }
-
         public void Visit(ISectionComponent element)
         {
-            foreach(CellSection child in element.children)
+            foreach (CellSection child in element.children)
             {
-                if(child.Value != 0)
+                if (child.Value != 0)
+                {
+                    child.PossibleNumbers = new List<int>();
                     continue;
-
-                SetPossibleNumbers(child, normalBoard.possibleNumbersList);
+                }
+                SetPossibleNumbers(child);
             }
         }
 
-        private void SetPossibleNumbers(CellSection cell, IList<int> possibleNumbersList)
+        private void SetPossibleNumbers(CellSection cell)
         {
-            cell.PossibleNumbers = cell.GetPossibleNumbers(possibleNumbersList);
+            IList<int> cellPossibleNumbers = cell.GetPossibleNumbers();
+            if (cell.LinkedCell != null)
+            {
+                IList<int> linkedCellPossibleNumbers = cell.LinkedCell.GetPossibleNumbers();
+                cell.PossibleNumbers = cellPossibleNumbers.Intersect(linkedCellPossibleNumbers).ToList();
+            }
+            else
+            {
+                cell.PossibleNumbers = cell.GetPossibleNumbers();
+            }
         }
     }
 }

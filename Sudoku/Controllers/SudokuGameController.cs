@@ -12,6 +12,7 @@ namespace Sudoku.Controllers
     {
         private static SudokuGameController _instance;
         private SudokuFactory _factory;
+        public static readonly string EMPTY_BOARD_CONTENT = "EMPTY";
 
         public IBoard sudokuBoard;
 
@@ -29,24 +30,24 @@ namespace Sudoku.Controllers
             }
         }
 
-        public IBoard CreateFourByFourBoard()
+        public IBoard CreateNormalBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateFourByFourBoard();
-            sudokuBoard.SetBoardContent("0000000000000000");
+            sudokuBoard = _factory.CreateNormalBoard(size);
+            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
             return sudokuBoard;
         }
 
-        public IBoard CreateSixBySixBoard()
+        public IBoard CreateSamuraiBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateSixBySixBoard();
-            sudokuBoard.SetBoardContent("000000000000000000000000000000000000");
+            sudokuBoard = _factory.CreateSamuraiBoard(size);
+            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
             return sudokuBoard;
         }
 
-        public IBoard CreateNineByNineBoard()
+        public IBoard CreateJigsawBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateNineByNineBoard();
-            sudokuBoard.SetBoardContent("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            sudokuBoard = _factory.CreateJigsawBoard(size);
+            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
             return sudokuBoard;
         }
     }

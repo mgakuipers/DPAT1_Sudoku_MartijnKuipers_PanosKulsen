@@ -9,25 +9,30 @@ namespace Sudoku.Controllers.Factories
 {
     public class SudokuFactory : AbstractSudokuFactory
     {
-        private NormalSudokuBoardFactory boardFactory;
+        private NormalSudokuBoardFactory normalBoardFactory;
+        private SpecialSudokuBoardFactory specialSudokuBoardFactory;
 
         public SudokuFactory()
         {
-            boardFactory = new NormalSudokuBoardFactory();
-            boardFactory.AddBoardTypes(nameof(NormalBoard), typeof(NormalBoard));
+            normalBoardFactory = new NormalSudokuBoardFactory();
+            normalBoardFactory.AddBoardTypes(nameof(NormalBoard), typeof(NormalBoard));
+
+            specialSudokuBoardFactory = new SpecialSudokuBoardFactory();
+            specialSudokuBoardFactory.AddBoardTypes(nameof(SamuraiBoard), typeof(SamuraiBoard));
+            specialSudokuBoardFactory.AddBoardTypes(nameof(JigsawBoard), typeof(JigsawBoard));
         }
 
-        public override IBoard CreateFourByFourBoard()
+        public override IBoard CreateNormalBoard(int size)
         {
-            return boardFactory.CreateBoard(nameof(NormalBoard), 4);
+            return normalBoardFactory.CreateBoard(nameof(NormalBoard), size);
         }
-        public override IBoard CreateSixBySixBoard()
+        public override IBoard CreateSamuraiBoard(int size)
         {
-            return boardFactory.CreateBoard(nameof(NormalBoard), 6);
+            return specialSudokuBoardFactory.CreateBoard(nameof(SamuraiBoard), size);
         }
-        public override IBoard CreateNineByNineBoard()
+        public override IBoard CreateJigsawBoard(int size)
         {
-            return boardFactory.CreateBoard(nameof(NormalBoard), 9);
+            return specialSudokuBoardFactory.CreateBoard(nameof(JigsawBoard), size);
         }
     }
 }
