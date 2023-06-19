@@ -1,232 +1,357 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Comment CommentText="Controllers&#xD;&#xA;">
-    <Position X="1.994" Y="0.5" Height="0.331" Width="1.113" />
+    <Position X="20.75" Y="0.5" Height="0.331" Width="1.113" />
   </Comment>
   <Comment CommentText="Models">
-    <Position X="8.485" Y="0.5" Height="0.331" Width="1.113" />
+    <Position X="0.75" Y="0.5" Height="0.331" Width="1.113" />
   </Comment>
   <Comment CommentText="ViewModels">
-    <Position X="16.262" Y="0.5" Height="0.331" Width="1.113" />
+    <Position X="16.04" Y="0.5" Height="0.331" Width="1.113" />
   </Comment>
   <Comment CommentText="Views">
-    <Position X="19.508" Y="0.5" Height="0.331" Width="1.113" />
+    <Position X="19.008" Y="0.5" Height="0.331" Width="1.113" />
   </Comment>
   <Class Name="Sudoku.Controllers.Factories.AbstractSudokuFactory">
-    <Position X="2" Y="1" Width="3" />
+    <Position X="20.75" Y="1" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAg=</HashCode>
+      <HashCode>AAAAAAAAAAAAAIAAAAAEAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
       <FileName>Controllers\Factories\AbstractSudokuFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Controllers.Factories.NormalSudokuBoardFactory">
-    <Position X="2" Y="5.25" Width="2.5" />
+    <Position X="24.25" Y="4" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAwAAAAAAAAA=</HashCode>
       <FileName>Controllers\Factories\NormalSudokuBoardFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Controllers.Factories.SudokuFactory">
-    <Position X="2" Y="2.75" Width="3" />
+    <Position X="20.75" Y="2.75" Width="3" />
+    <Members>
+      <Method Name="CreateJigsawBoard" Hidden="true" />
+      <Method Name="CreateNormalBoard" Hidden="true" />
+      <Method Name="CreateSamuraiBoard" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAEAAIAAAAAAAAAg=</HashCode>
+      <HashCode>AAAAAAAAAAAAAIgAAAAEAAAAAAAAAAAAAEEAAAAAAAA=</HashCode>
       <FileName>Controllers\Factories\SudokuFactory.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="normalBoardFactory" />
+      <Field Name="specialSudokuBoardFactory" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Sudoku.Controllers.Strategies.BacktrackingSolve">
-    <Position X="5.25" Y="2.5" Width="1.75" />
+    <Position X="24.25" Y="8.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAQA=</HashCode>
       <FileName>Controllers\Strategies\BacktrackingSolve.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Controllers.Strategies.SolveStrategy">
-    <Position X="5.25" Y="1" Width="1.5" />
+    <Position X="24.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\Strategies\SolveStrategy.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Controllers.SudokuGameController">
-    <Position X="5.25" Y="4" Width="2.5" />
+    <Position X="20.75" Y="4.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AACEAAAAAAAAAIAAAAAEAAAAAAIAAAAAQEACAAAAAAA=</HashCode>
       <FileName>Controllers\SudokuGameController.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Sudoku.Models.Boards.FourByFourBoard" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="8.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Models\Boards\FourByFourBoard.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Sudoku.Models.Boards.NineByNineBoard" BaseTypeListCollapsed="true">
-    <Position X="13.5" Y="8.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Models\Boards\NineByNineBoard.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Sudoku.Models.Boards.SixBySixBoard" BaseTypeListCollapsed="true">
-    <Position X="11.5" Y="8.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Models\Boards\SixBySixBoard.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Sudoku.Models.Sections.BlockSection" BaseTypeListCollapsed="true">
-    <Position X="8.5" Y="8.75" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AIIQAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Sections\BlockSection.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <ShowAsAssociation>
+      <Field Name="_factory" />
+      <Field Name="_instance" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Sudoku.Models.Sections.CellSection" BaseTypeListCollapsed="true">
-    <Position X="8.5" Y="13.25" Width="1.5" />
+    <Position X="0.75" Y="7.5" Width="1.5" />
+    <Members>
+      <Method Name="Accept" Hidden="true" />
+      <Method Name="IsUnique" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AJCAAAACQEAAAAQAoChAAAAAgACAAgAgAEIgAAQAAAA=</HashCode>
       <FileName>Models\Sections\CellSection.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_linkedCell" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Sudoku.Models.Sections.ColumnSection" BaseTypeListCollapsed="true">
-    <Position X="8.5" Y="6.5" Width="2.75" />
+    <Position X="4.25" Y="12" Width="3.25" />
+    <Members>
+      <Method Name="Accept" Hidden="true" />
+      <Method Name="IsUnique" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AIIQAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QIIAAAAAAEAAAAQAgCAABAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Sections\ColumnSection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Sudoku.Models.Sections.RowSection" BaseTypeListCollapsed="true">
-    <Position X="8.5" Y="11" Width="2.75" />
+    <Position X="0.75" Y="12" Width="3.25" />
+    <Members>
+      <Method Name="Accept" Hidden="true" />
+      <Method Name="IsUnique" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AIIQAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QIIAAAAAAEAAAAQAgCAABAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Sections\RowSection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Sudoku.Models.State.BoardState">
-    <Position X="8.5" Y="1" Width="2.25" />
+    <Position X="0.75" Y="1" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAgAAAAAAAAAAAAAAIAAAAAAAAAAQA=</HashCode>
       <FileName>Models\State\BoardState.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Models.State.HelperState">
-    <Position X="10.75" Y="3.25" Width="2" />
+    <Position X="3" Y="3.25" Width="2" />
+    <Members>
+      <Method Name="CheckStateChange" Hidden="true" />
+      <Method Name="GetStateName" Hidden="true" />
+      <Method Name="Handle" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAQA=</HashCode>
       <FileName>Models\State\HelperState.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Models.State.NormalState">
-    <Position X="13" Y="3.25" Width="2" />
+    <Position X="5.25" Y="3.25" Width="2" />
+    <Members>
+      <Method Name="CheckStateChange" Hidden="true" />
+      <Method Name="GetStateName" Hidden="true" />
+      <Method Name="Handle" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAQA=</HashCode>
       <FileName>Models\State\NormalState.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Models.State.SolveState">
-    <Position X="8.5" Y="3.25" Width="2" />
+    <Position X="0.75" Y="3.25" Width="2" />
+    <Members>
+      <Method Name="CheckStateChange" Hidden="true" />
+      <Method Name="GetStateName" Hidden="true" />
+      <Method Name="Handle" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAQA=</HashCode>
       <FileName>Models\State\SolveState.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sudoku.Models.Visitors.CheckHintNumbersVisitor" BaseTypeListCollapsed="true">
-    <Position X="16" Y="11.75" Width="2" />
+    <Position X="8.75" Y="7.25" Width="2" />
+    <Members>
+      <Method Name="Visit" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Visitors\CheckHintNumbersVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Sudoku.Models.Visitors.ValidateNumberVisitor" BaseTypeListCollapsed="true">
-    <Position X="13.5" Y="11.75" Width="2" />
+    <Position X="6.5" Y="7.25" Width="2" />
+    <Members>
+      <Method Name="Visit" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Models\Visitors\ValidateNumberVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Sudoku.ViewModels.BoardViewModel">
-    <Position X="16.25" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAACAAAAAAAABAAAAAAAAAAAAgAAAA=</HashCode>
-      <FileName>ViewModels\BoardViewModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Sudoku.ViewModels.CellViewModel">
-    <Position X="16.25" Y="1.25" Width="1.5" />
+    <Position X="16" Y="1.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>ABCAQAAAQAAABAAAAAgAAAAAAACAAAAQAEAgAAAACAA=</HashCode>
       <FileName>ViewModels\CellViewModel.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cellModel" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="Sudoku.ViewModels.SudokuGameViewModel">
-    <Position X="16.25" Y="3.75" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ViewModels\SudokuGameViewModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Sudoku.Views.Components.BoardView" BaseTypeListCollapsed="true">
-    <Position X="19.5" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Views\Components\BoardView.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="Sudoku.Views.Components.CellView" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="19.5" Y="1.25" Width="1.5" />
+  <Class Name="Sudoku.Views.Components.CellView" BaseTypeListCollapsed="true">
+    <Position X="19" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\Components\CellView.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Sudoku.Views.SudokuGameView" BaseTypeListCollapsed="true">
-    <Position X="19.5" Y="3.75" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Views\SudokuGameView.xaml.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="Sudoku.Models.Sections.BoardSection" BaseTypeListCollapsed="true">
-    <Position X="11.5" Y="5" Width="2.25" />
+    <Position X="2.75" Y="5.25" Width="3.25" />
+    <Members>
+      <Method Name="Accept" Hidden="true" />
+      <Method Name="IsUnique" Hidden="true" />
+    </Members>
+    <AssociationLine Name="_solveStrategy" Type="Sudoku.Controllers.Strategies.SolveStrategy" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6" Y="9.608" />
+        <Point X="17.292" Y="9.608" Type="JumpStart" />
+        <Point X="17.458" Y="9.608" Type="JumpEnd" />
+        <Point X="20.375" Y="9.608" />
+        <Point X="20.375" Y="7.563" />
+        <Point X="21.417" Y="7.562" Type="JumpStart" />
+        <Point X="21.583" Y="7.563" Type="JumpEnd" />
+        <Point X="24.25" Y="7.563" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AIACAAACAAAgAAAAAIBAAAAAAACAAAIAAAAAAAAABAA=</HashCode>
+      <HashCode>QIAGAAAAAEAAAESAgKBJAAACAQCAgAYAAQAAAAYAAQE=</HashCode>
       <FileName>Models\Sections\BoardSection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_boardState" />
+      <Field Name="_solveStrategy" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sudoku.Controllers.Factories.SpecialSudokuBoardFactory">
+    <Position X="24.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAwAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Factories\SpecialSudokuBoardFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sudoku.Models.Visitors.ClearHintNumbersVisitor">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <Members>
+      <Method Name="Visit" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Visitors\ClearHintNumbersVisitor.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="Sudoku.Models.Boards.INormalBoard">
-    <Position X="14" Y="6.75" Width="1.75" />
+  <Class Name="Sudoku.Models.Boards.NormalBoard">
+    <Position X="7.5" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="ClearHintNumbers" Hidden="true" />
+      <Method Name="CreateBoard" Hidden="true" />
+      <Method Name="FillHintNumbers" Hidden="true" />
+      <Method Name="GetBoardState" Hidden="true" />
+      <Method Name="GetOriginalContent" Hidden="true" />
+      <Method Name="IsSolved" Hidden="true" />
+      <Method Name="IsValidBoard" Hidden="true" />
+      <Method Name="SetBoardContent" Hidden="true" />
+      <Method Name="SetBoardState" Hidden="true" />
+      <Method Name="ValidateBoard" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Models\Boards\INormalBoard.cs</FileName>
+      <HashCode>AAAgAAACAACAAAAAAAAAAEAAAAAAAAAAE0BAIBAAEgA=</HashCode>
+      <FileName>Models\Boards\NormalBoard.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="Sudoku.Models.Sections.ISectionComponent">
-    <Position X="8.5" Y="5" Width="1.75" />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sudoku.Models.Boards.JigsawBoard">
+    <Position X="10.25" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="ChangeRegionForCell" Hidden="true" />
+      <Method Name="ClearHintNumbers" Hidden="true" />
+      <Method Name="CreateBoard" Hidden="true" />
+      <Method Name="FillHintNumbers" Hidden="true" />
+      <Method Name="GetBoardState" Hidden="true" />
+      <Method Name="GetOriginalContent" Hidden="true" />
+      <Method Name="IsSolved" Hidden="true" />
+      <Method Name="IsValidBoard" Hidden="true" />
+      <Method Name="SetBoardContent" Hidden="true" />
+      <Method Name="SetBoardState" Hidden="true" />
+      <Method Name="ValidateBoard" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAACAACAAAAAAAAQAEAAAAAAAAAAE0BAIBAAEgA=</HashCode>
+      <FileName>Models\Boards\JigsawBoard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sudoku.Models.Boards.SamuraiBoard">
+    <Position X="13" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="ClearHintNumbers" Hidden="true" />
+      <Method Name="CreateBoard" Hidden="true" />
+      <Method Name="FillHintNumbers" Hidden="true" />
+      <Method Name="GetBoardState" Hidden="true" />
+      <Method Name="GetOriginalContent" Hidden="true" />
+      <Method Name="IsSolved" Hidden="true" />
+      <Method Name="IsValidBoard" Hidden="true" />
+      <Method Name="SetBoardContent" Hidden="true" />
+      <Method Name="SetBoardState" Hidden="true" />
+      <Method Name="SolveBoard" Hidden="true" />
+      <Method Name="ValidateBoard" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAiAAECAACAAAAAAQAAAEAAAAAAAAAAM0BAIBAAEgA=</HashCode>
+      <FileName>Models\Boards\SamuraiBoard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sudoku.Models.Sections.RegionSection">
+    <Position X="7.75" Y="12" Width="3.25" />
+    <Members>
+      <Method Name="Accept" Hidden="true" />
+      <Method Name="IsUnique" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QIIAAAAAAEAAAAQAgCAABAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Sections\RegionSection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sudoku.MainWindow">
+    <Position X="20.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAACAAgAIAAIAQAAAACAAADAIAAAAAAAAAEACQAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gameController" />
+      <Field Name="sudokuBoard" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Sudoku.Models.Sections.ISectionComponent">
+    <Position X="0.75" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAEAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Sections\ISectionComponent.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Sudoku.Models.Visitors.IVisitor">
-    <Position X="13.5" Y="10.25" Width="1.5" />
+    <Position X="8.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Visitors\IVisitor.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Interface Name="Sudoku.Models.Boards.IBoard">
+    <Position X="11.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAmAAACAACAAACAAAAAAEAAAAAAAAAAEkBAIBAAEAA=</HashCode>
+      <FileName>Models\Boards\IBoard.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Sudoku.Models.Enums.SamuraiPositionEnum">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAGAAAAAAAABAgAAAAAAAIAA=</HashCode>
+      <FileName>Models\Enums\SamuraiPositionEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

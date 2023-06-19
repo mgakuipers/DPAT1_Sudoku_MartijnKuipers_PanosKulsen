@@ -38,9 +38,6 @@ namespace Sudoku
             // Create a new Sudoku board
             sudokuBoard = gameController.CreateNormalBoard();
 
-            // Add event handler for board state change
-            // sudokuBoard.BoardStateChanged += SudokuBoard_BoardStateChanged;
-
             // Populate the UI with the Sudoku board cells
             GenerateNormalBoardUI();
         }
@@ -236,8 +233,9 @@ namespace Sudoku
                 samuraiCanvas.Children.Add(currentBoardGrid);
             }
 
-            samuraiCanvas.Width = cellSize * 21;
-            samuraiCanvas.Height = cellSize * 21;
+            double amountOfCells = 21;
+            samuraiCanvas.Width = cellSize * amountOfCells;
+            samuraiCanvas.Height = cellSize * amountOfCells;
 
             gridPanel.Children.Add(samuraiCanvas);
 
