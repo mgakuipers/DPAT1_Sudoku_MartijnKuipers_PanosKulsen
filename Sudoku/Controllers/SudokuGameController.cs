@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Sudoku.Controllers
 {
@@ -32,23 +33,29 @@ namespace Sudoku.Controllers
 
         public IBoard CreateNormalBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateNormalBoard(size);
-            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
-            return sudokuBoard;
+            IBoard board = _factory.CreateNormalBoard(size);
+            board.SetBoardContent(EMPTY_BOARD_CONTENT);
+            sudokuBoard = board;
+
+            return board;
         }
 
         public IBoard CreateSamuraiBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateSamuraiBoard(size);
-            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
-            return sudokuBoard;
+            IBoard board = _factory.CreateSamuraiBoard(size);
+            board.SetBoardContent(EMPTY_BOARD_CONTENT);
+            sudokuBoard = board;
+
+            return board;
         }
 
         public IBoard CreateJigsawBoard(int size = 9)
         {
-            sudokuBoard = _factory.CreateJigsawBoard(size);
-            sudokuBoard.SetBoardContent(EMPTY_BOARD_CONTENT);
-            return sudokuBoard;
+            IBoard board = _factory.CreateJigsawBoard(size);
+            board.SetBoardContent(EMPTY_BOARD_CONTENT);
+            sudokuBoard = board;
+
+            return board;
         }
     }
 }

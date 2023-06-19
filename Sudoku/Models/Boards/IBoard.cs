@@ -13,7 +13,7 @@ namespace Sudoku.Models.Boards
         void CreateBoard();
         BoardState GetBoardState();
         void SetBoardState(BoardState boardState);
-        void SetBoardContent(string content);
+        bool SetBoardContent(string content);
         void SetCell(int row, int col, int value);
         void SolveBoard();
         void ValidateBoard();
