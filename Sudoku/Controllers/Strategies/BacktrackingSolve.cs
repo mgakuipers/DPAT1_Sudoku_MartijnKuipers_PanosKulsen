@@ -1,12 +1,4 @@
-﻿using Sudoku.Models.Boards;
-using Sudoku.Models.Sections;
-using Sudoku.Models.State;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Sudoku.Models.Sections;
 
 namespace Sudoku.Controllers.Strategies
 {
@@ -70,7 +62,7 @@ namespace Sudoku.Controllers.Strategies
             return false;
         }
 
-        private bool IsValidMove(BoardSection board, int row, int col, int num)
+        /*private bool IsValidMove(BoardSection board, int row, int col, int num)
         {
             // Check row constraints
             RowSection rowSection = board.rows[row];
@@ -106,6 +98,49 @@ namespace Sudoku.Controllers.Strategies
                 }
             }
 
+            return true;
+        }*/
+
+        public bool IsValidMove(BoardSection board, int row, int col, int num)
+        {
+            CellSection currentCell = board.GetCell(row, col);
+            foreach (ISectionComponent parentSection in currentCell.parentSections)
+            {
+                RegionSection regionSection = parentSection as RegionSection;
+                RowSection rowSection = parentSection as RowSection;
+                ColumnSection colSection = parentSection as ColumnSection;
+
+                if (regionSection != null)
+                {
+                    foreach (CellSection c in regionSection.children)
+                    {
+                        if (c.Value == num)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else if (rowSection != null)
+                {
+                    foreach (CellSection c in rowSection.children)
+                    {
+                        if (c.Value == num)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else if (colSection != null)
+                {
+                    foreach (CellSection c in colSection.children)
+                    {
+                        if (c.Value == num)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
             return true;
         }
     }

@@ -3,9 +3,6 @@ using Sudoku.Models.Boards;
 using Sudoku.Models.State;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sudoku.Controllers.Factories
 {

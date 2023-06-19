@@ -4,25 +4,16 @@ using Sudoku.Models.Boards;
 using Sudoku.ViewModels;
 using Sudoku.Views.Components;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.IO;
 using System.ComponentModel;
 using Sudoku.Models.Sections;
 using System.Threading;
 using Sudoku.Models.State;
 using System.Windows.Controls.Primitives;
-using System.Runtime.CompilerServices;
 using Sudoku.Models.Enums;
 
 namespace Sudoku
@@ -253,6 +244,84 @@ namespace Sudoku
             this.UpdateLayout();
         }
 
+        private void GenerateJigsawBoardUI()
+        {
+            // Clear the existing UI elements
+            gridPanel.Children.Clear();
+
+            UniformGrid gridBoard = new UniformGrid();
+
+            // Board variables
+            int boardSize = sudokuBoard.GetSize();
+            int verticalSize = (int)Math.Sqrt(boardSize);
+            int horizontalSize = boardSize / verticalSize;
+
+            double cellSize = 55;
+
+            gridBoard.Height = boardSize * cellSize;
+            gridBoard.Width = boardSize * cellSize;
+            gridBoard.Rows = boardSize;
+            gridBoard.Columns = boardSize;
+
+            // Iterate over the cells in the Sudoku board and add UI elements for each cell
+            for (int row = 0; row < boardSize; row++)
+            {
+                for (int col = 0; col < boardSize; col++)
+                {
+                    // Get the cell value from the Sudoku board
+                    CellSection cell = sudokuBoard.GetCell(row, col);
+                    int cellValue = cell.Value;
+
+                    // Create an instance of the CellView
+                    CellView cellView = new CellView();
+                    cellView.cell.Width = cellSize;
+                    cellView.cell.Height = cellSize;
+
+                    cellView.PossibleNumbers.Margin = new Thickness(1, 0, 1, 0);
+
+                    // Add border left, right, top or bottom depending on its position on the board
+                    int borderThicknessNumber = 2;
+                    Thickness borderThickness = new Thickness();
+                    RegionSection regionParent = (RegionSection)cell.parentSections.FirstOrDefault(section => section.GetType().Equals(typeof(RegionSection)));
+                    if (regionParent.children.Where(c => c.Row == cell.Row && c.Column < cell.Column).Count() == 0)
+                    {
+                        borderThickness.Left = borderThicknessNumber;
+                    }
+                    if (regionParent.children.Where(c => c.Row == cell.Row && c.Column > cell.Column).Count() == 0)
+                    {
+                        borderThickness.Right = borderThicknessNumber;
+                    }
+                    if (regionParent.children.Where(c => c.Row < cell.Row && c.Column == cell.Column).Count() == 0)
+                    {
+                        borderThickness.Top = borderThicknessNumber;
+                    }
+                    if (regionParent.children.Where(c => c.Row > cell.Row && c.Column == cell.Column).Count() == 0)
+                    {
+                        borderThickness.Bottom = borderThicknessNumber;
+                    }
+
+                    // Set the DataContext of the CellView to the corresponding CellViewModel
+                    CellViewModel cellViewModel = new CellViewModel(cell);
+                    cellViewModel.Value = cellValue;
+                    cellViewModel.PossibleNumbers = cell.PossibleNumbers;
+                    cellViewModel.PropertyChanged += CellViewModel_PropertyChanged; // Subscribe to the PropertyChanged event
+                    cellView.DataContext = cellViewModel;
+
+                    // Add the TextBox to the UniformGrid
+                    Border border = new Border();
+                    border.BorderThickness = borderThickness;
+                    border.BorderBrush = Brushes.Black;
+                    border.Child = cellView;
+
+                    gridBoard.Children.Add(border);
+                }
+            }
+
+            gridPanel.Children.Add(gridBoard);
+
+            this.UpdateLayout();
+        }
+
         private void CellViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Handle the PropertyChanged event of the CellViewModel
@@ -333,6 +402,7 @@ namespace Sudoku
                             break;
 
                         case JigsawBoard jigsawBoard:
+                            GenerateJigsawBoardUI();
                             break;
                     }
 
@@ -386,7 +456,21 @@ namespace Sudoku
                     sudokuBoard.SetBoardContent(sudokuBoard.GetOriginalContent());
                     Dispatcher.Invoke(() =>
                     {
-                        GenerateNormalBoardUI();
+                        // Update the UI to reflect the new board
+                        switch (SudokuGameController.Instance.sudokuBoard)
+                        {
+                            case NormalBoard normalBoard:
+                                GenerateNormalBoardUI();
+                                break;
+
+                            case SamuraiBoard samuraiBoard:
+                                GenerateSamuraiBoardUI();
+                                break;
+
+                            case JigsawBoard jigsawBoard:
+                                GenerateJigsawBoardUI();
+                                break;
+                        }
                     });
                 }).Start();
             }
