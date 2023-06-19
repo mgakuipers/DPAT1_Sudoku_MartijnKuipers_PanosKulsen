@@ -152,8 +152,6 @@ namespace Sudoku.Models.Sections
                 List<int> allPossibleNumbers = new List<int>();
                 allPossibleNumbers.AddRange(SudokuGameController.Instance.sudokuBoard.possibleNumbersList);
 
-
-
                 if (regionSection != null)
                 {
                     IList<int> setNumbers = new List<int>();

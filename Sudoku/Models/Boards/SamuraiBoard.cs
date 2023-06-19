@@ -268,7 +268,6 @@ namespace Sudoku.Models.Boards
 
         public override void SolveBoard()
         {
-            MessageBox.Show("This function is not supported for Samurai.");
         }
     }
 }

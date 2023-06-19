@@ -432,6 +432,10 @@ namespace Sudoku
                 {
                     Thread.CurrentThread.IsBackground = true;
                     sudokuBoard.SolveBoard();
+                    if (sudokuBoard.GetType().Equals(typeof(SamuraiBoard)))
+                    {
+                        MessageBox.Show("This function is not supported for Samurai."); 
+                    }
                     isSolving = false;
                 }).Start();
             }
