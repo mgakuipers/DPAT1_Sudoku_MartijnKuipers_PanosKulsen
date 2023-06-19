@@ -119,7 +119,7 @@ namespace Sudoku
 
             gridPanel.Children.Add(gridBoard);
 
-            this.UpdateLayout();
+            UpdateWindow();
         }
 
         private void GenerateSamuraiBoardUI()
@@ -240,6 +240,13 @@ namespace Sudoku
             samuraiCanvas.Height = cellSize * 21;
 
             gridPanel.Children.Add(samuraiCanvas);
+
+            UpdateWindow();
+        }
+
+        private void UpdateWindow()
+        {
+            btnToggleState.Content = "Switch to HelperState";
 
             this.UpdateLayout();
         }
@@ -388,7 +395,11 @@ namespace Sudoku
                 {
                     string content = File.ReadAllText(filePath);
                     content = new string(content.Where(c => !char.IsWhiteSpace(c)).ToArray<char>());
-                    sudokuBoard.SetBoardContent(content);
+                    if(!sudokuBoard.SetBoardContent(content))
+                    {
+                        MessageBox.Show("Invalid content length for setting board state.");
+                    }
+                    
 
                     // Update the UI to reflect the new board
                     switch (SudokuGameController.Instance.sudokuBoard)

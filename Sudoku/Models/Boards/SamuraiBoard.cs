@@ -147,7 +147,7 @@ namespace Sudoku.Models.Boards
             }
         }
 
-        public void SetBoardContent(string content)
+        public bool SetBoardContent(string content)
         {
             if (content.Equals(SudokuGameController.EMPTY_BOARD_CONTENT))
             {
@@ -155,9 +155,7 @@ namespace Sudoku.Models.Boards
             }
             else if (content.Length != GetSize() * GetSize() * AMOUNT_OF_BOARDS)
             {
-                MessageBox.Show(content.Length.ToString());
-                MessageBox.Show("Invalid content length for setting board state.");
-                return;
+                return false;
             }
 
             this.originalContent = content;
@@ -196,6 +194,8 @@ namespace Sudoku.Models.Boards
                     }
                 }
             }
+
+            return true;
         }
 
         public bool IsSolved()

@@ -96,7 +96,7 @@ namespace Sudoku.Models.Boards
             }
         }
 
-        public void SetBoardContent(string content)
+        public bool SetBoardContent(string content)
         {
             int contentOffset = 9;
             int itemOffset = 4;
@@ -110,8 +110,7 @@ namespace Sudoku.Models.Boards
             }
             else if (content.Length != GetSize() * GetSize() * itemOffset + contentOffset)
             {
-                MessageBox.Show("Invalid content length for setting board state.");
-                return;
+                return false;
             }
 
             this.originalContent = content;
@@ -143,6 +142,8 @@ namespace Sudoku.Models.Boards
                     }
                 }
             }
+
+            return true;
         }
 
         private void ChangeRegionForCell(CellSection cell, int regionIndex)
